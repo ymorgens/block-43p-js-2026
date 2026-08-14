@@ -3,7 +3,7 @@ title: "Session 1: Foundations"
 subtitle: "4.3 Programming Experiments"
 author: "Brain and Cognition, Erasmus University Rotterdam"
 date: last-modified
-format:
+format:z
   html:
     toc: true
     toc-depth: 3
@@ -23,7 +23,7 @@ execute:
 
 In this course you will learn to build web-based experiments using **jsPsych**, one of the most widely used JavaScript libraries for online behavioural research. By the end of the four sessions, you will be able to design, program, and deploy your own experiment.
 
-This first session lays the foundation. You do **not** need any prior experience with web programming — we will build everything up from first principles. By the end of today, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
+This first session lays the foundation. You do **not** need any prior experience with web programming as we will build everything up from first principles. By the end of today, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
 
 ::: {.callout-note}
 ## Learning objectives
