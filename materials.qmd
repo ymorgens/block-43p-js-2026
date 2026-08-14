@@ -1,0 +1,27 @@
+---
+title: "Templates & Materials"
+format:
+  html:
+    toc: true
+---
+
+Each session has a self-contained starter template: jsPsych library files, images/media, a starting `experiment.html`, and reference "checkpoint" files for that session. Download the one for the session you're on.
+
+## Session templates
+
+- [Session 1 template](downloads/jspsych-course-session1-template.zip) — HTML/CSS/JS basics, first jsPsych experiment
+- [Session 2 template](downloads/jspsych-course-session2-template.zip) — trial types, randomization, feedback, blocks
+- [Session 3 template](downloads/jspsych-course-session3-template.zip) — timeline variables, consent, saving data
+- [Session 4 template](downloads/jspsych-course-session4-template.zip) — minimal starter shell + syntax cheat sheet for the independent build
+
+## Using a template
+
+1. Download and unzip the folder for your current session.
+2. Open the unzipped folder in VS Code (`File → Open Folder...`).
+3. Install the **Live Server** extension if you haven't already (see Session 1).
+4. Right-click `experiment.html` (or the relevant file) and choose **"Open with Live Server"**.
+
+::: {.callout-note}
+## Worked solutions
+Fully worked reference solutions for Session 2's and 3's optional challenges, and for all five Session 4 tasks (Stroop, Flanker, Lexical Decision, Visual Search, N-back), are shared by the instructor a few days after the relevant session — not posted here in advance, so you have a genuine chance to build them yourself first.
+:::

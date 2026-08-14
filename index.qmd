@@ -1,0 +1,58 @@
+---
+title: "Experimental Programming in the Cognitive Sciences"
+subtitle: "Course Manual"
+author: "Master's Programme in Brain and Cognition"
+date: last-modified
+format:
+  html:
+    toc: true
+---
+
+This manual contains the instructions and course material for **Experimental Programming in the Cognitive Sciences** — a four-session, hands-on introduction to building online behavioural experiments with [jsPsych](https://www.jspsych.org).
+
+By the end of the course, you will have built and hosted a complete, real experiment of your own choosing, from a blank file to a public URL that collects real data.
+
+## Schedule
+
+| Session | Title | Topic |
+|---|---|---|
+| 1 | Foundations | HTML, CSS, JavaScript basics, and your first jsPsych experiment |
+| 2 | Trial Design | Multiple trial types, randomization, feedback, practice and main blocks |
+| 3 | Real Data | Timeline variables, consent, participant data, saving and inspecting results |
+| 4 | Going Live | Building a complete experiment from a specification, and hosting it online |
+
+## Learning Objectives
+
+By the end of this course, you will be able to:
+
+- **Operationalize an experiment** — turn a research question or classic paradigm into a concrete, working set of trials.
+- Present stimuli in different modalities: **text, images**, and (optionally) **audio and video**.
+- Control and reason about **trial timing** — fixation crosses, stimulus duration, and response windows.
+- Collect different types of response: **key presses, reaction times, and choices** (including button-based responses).
+- **Randomize** trial order and materials, and (optionally) **counterbalance** condition order across participants.
+- Implement **performance feedback**, and (optionally) simple **adaptive logic** that responds to how a participant is doing.
+- **Collect, save, and prepare data for analysis** — including opening it cleanly in Excel or SPSS.
+
+## Learning Activities
+
+### Self-study
+
+Each session builds directly on the last — the same running example (and, from Session 4, your own chosen experiment) carries through the whole course. Working through each session's exercises yourself, in order, matters more than reading ahead.
+
+### In-session work
+
+Each session is a hands-on, roughly 3-hour block combining short explanations with guided "try it yourself" exercises, working directly in your own project files. Reference solutions ("checkpoint" files) are provided throughout, so you can check your own work or catch up if you fall behind.
+
+::: {.callout-note}
+## Before Session 1
+You'll need [VS Code](https://code.visualstudio.com/) installed, with the **Live Server** extension. See Session 1's "Before the Practical" section for full setup instructions.
+:::
+
+::: {.callout-note}
+## Before Session 4
+Session 4 involves hosting your experiment online. Please create free GitHub, OSF, and DataPipe accounts **before** Session 3 ends — see the homework note at the end of Session 3 for step-by-step instructions. Doing this in advance saves significant time during Session 4 itself.
+:::
+
+## Getting the Materials
+
+Each session's starter files, images, and library files are available as downloadable templates — see [Templates & Materials](materials.qmd).

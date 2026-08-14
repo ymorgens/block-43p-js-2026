@@ -1,0 +1,794 @@
+---
+title: "Session 3: Running a Real Study"
+subtitle: "Experimental Programming in the Cognitive Sciences"
+author: "Master's Programme in Brain and Cognition"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: true
+    code-fold: false
+    code-copy: true
+    theme: cosmo
+    highlight-style: github
+    smooth-scroll: true
+execute:
+  eval: false
+  echo: true
+---
+
+## Welcome back
+
+Over the last two sessions you built a small shape-categorization task: participants see a circle or square and press **F** or **J**, with a practice block, feedback, and a repeated main block. Today, that same experiment becomes something you could actually run as a real pilot study — with a cleaner way of repeating trials, faster-loading images, a participant ID, saved data, and a debrief screen showing the participant their own performance.
+
+As with Session 2, everything you build today extends the **same experiment file** — nothing from Sessions 1–2 is being replaced.
+
+::: {.callout-note}
+## Learning objectives
+
+By the end of this session you will be able to:
+
+- Use jsPsych's `timeline_variables` to repeat and randomize trials, instead of writing loops by hand.
+- Preload images so they display without delay during the experiment.
+- Add a consent screen, and collect a participant ID and tag all of a participant's data with it.
+- Save experiment data to a file.
+- Read back collected data to compute accuracy and reaction time, and show a participant their own results.
+:::
+
+::: {.callout-note}
+## Session timing at a glance
+
+| Part | Time |
+|---|---|
+| Recap of Session 2 | 10 min |
+| Part 1 — Timeline variables | 40 min |
+| Part 2 — Preloading stimuli | 20 min |
+| Part 3 — Participant info & saving data | 40 min |
+| Part 4 — Reading & inspecting data | 40 min |
+| **Total hands-on time** | **150 min** |
+
+Timeline variables is the biggest conceptual step today — similar to functions-as-parameters in Session 2 — so expect Part 1 to need the most careful pacing.
+:::
+
+---
+
+## Recap: what carries over from Sessions 1–2
+
+| From Sessions 1–2 | How it's used today |
+|---|---|
+| **`for` loops, loop-inside-a-loop** (Session 2, Part 4) | Today's Part 1 replaces this with jsPsych's own tool for the same job |
+| **Objects & arrays of stimuli** (Session 1–2) | `stimulus_list` is unchanged — still an array of `{image, category, correct_response}` objects |
+| **Functions as parameters** (Session 2, Part 3) | Reused again today for the debrief screen in Part 4 |
+| **`data` and `on_finish`** (Session 2, Parts 1 & 3) | Unchanged — still how we tag and score trials |
+| **The spread operator `...`** (Session 2, Part 2) | Contrasted today with a *new* case where you do **not** use it — see Part 1 |
+
+### Getting set up
+
+Open today's template folder. `experiment.html` already contains your finished Session 2 experiment — this is today's starting point.
+
+```
+session3-template/
+├── experiment.html                   <- your Session 2 experiment; extend this today
+├── checkpoint_1_timeline_variables.html <- reference: end of Part 1
+├── checkpoint_2_preload.html          <- reference: end of Part 2
+├── checkpoint_3_participant_data.html <- reference: end of Part 3
+├── checkpoint_4_debrief.html          <- reference: end of Part 4 (full experiment)
+├── images/                           <- same circle/square stimuli as Session 2
+└── jspsych/                          <- jsPsych library, now with 2 new plugins
+```
+
+::: {.callout-important}
+## How to use the checkpoint files
+Same as Session 2: try building each part yourself first, and only open a checkpoint file if you get stuck or want to compare your approach.
+:::
+
+### New plugins today
+
+Just like Part 4 of Session 1, every jsPsych plugin needs its own `<script>` tag in `<head>`, in addition to the core `jspsych.js` file. Two new plugins are introduced today — add these script tags to `experiment.html` *before* you need them (you'll get a `jsPsychPreload is not defined` / `jsPsychSurveyText is not defined` style error in the console if you forget):
+
+| Plugin | Used in | Script tag to add |
+|---|---|---|
+| `preload` | Part 2 | `<script src="jspsych/plugin-preload.js"></script>` |
+| `survey-text` | Part 3 | `<script src="jspsych/plugin-survey-text.js"></script>` |
+| `external-html` *(optional)* | Part 3.0.1 | `<script src="jspsych/plugin-external-html.js"></script>` |
+| `browser-check` *(optional)* | Bonus | `<script src="jspsych/plugin-browser-check.js"></script>` |
+
+---
+
+## Part 1 — Timeline Variables {#sec-part1}
+
+*(≈ 40 minutes)*
+
+### 1.1 Why replace the loop?
+
+In Session 2, you built the main block with a loop inside a loop: an outer loop repeated the block `n_repetitions` times, and an inner loop turned each (reshuffled) stimulus into a trial. That approach works, but jsPsych has its own built-in tool for exactly this pattern, called **timeline variables** — worth learning because it's what most real jsPsych experiments use, and because it lets jsPsych handle the randomizing and repeating for you.
+
+### 1.2 From per-trial values to `jsPsych.timelineVariable()`
+
+::: {.callout-note collapse="true"}
+## Click to recall your Session 2 code
+
+Inside the loop, you built a fresh trial object on every iteration, reading values off `this_stimulus`:
+
+```js
+// Session 2 — built fresh, once per loop iteration, called "trial"
+let trial = {
+  type: jsPsychImageKeyboardResponse,
+  stimulus: this_stimulus.image,
+  choices: ["f", "j"],
+  data: {
+    phase: "main",
+    category: this_stimulus.category,
+    correct_response: this_stimulus.correct_response
+  },
+  on_finish: function (data) {
+    data.correct = (data.response === data.correct_response);
+  }
+};
+
+main_trials.push(trial);
+```
+:::
+
+Today, instead of rebuilding this object again and again inside a loop, you write it **once**, as a reusable template. Wherever a value used to come from `this_stimulus`, you now write `jsPsych.timelineVariable("name")` instead:
+
+```js
+// Today — written ONCE, reused automatically by jsPsych for every stimulus
+const main_stimulus_trial = {
+  type: jsPsychImageKeyboardResponse,
+  stimulus: jsPsych.timelineVariable("image"),                     // was: this_stimulus.image
+  choices: ["f", "j"],
+  data: {
+    phase: "main",
+    category: jsPsych.timelineVariable("category"),                 // was: this_stimulus.category
+    correct_response: jsPsych.timelineVariable("correct_response")  // was: this_stimulus.correct_response
+  },
+  on_finish: function (data) {
+    data.correct = (data.response === data.correct_response);
+  }
+};
+```
+
+Two things changed, and it's worth noticing both:
+
+1. **The three marked lines** — each `this_stimulus.___` became `jsPsych.timelineVariable("___")`. Everything else (`type`, `choices`, `on_finish`) is identical to Session 2.
+2. **The name**: this is no longer called `trial` — since it's written once and reused, rather than rebuilt fresh every loop iteration, we give it a name that reflects what it now is: a *template* specifically for main-block stimulus trials, `main_stimulus_trial`.
+
+This template doesn't do anything by itself — `jsPsych.timelineVariable("image")` is a placeholder that says "fill this in from whichever stimulus is currently active." To actually run it once per stimulus, we wrap it in a **timeline node**:
+
+```js
+const main_procedure = {
+  timeline: [fixation_trial, main_stimulus_trial],
+  timeline_variables: stimulus_list,
+  randomize_order: true,
+  repetitions: 3
+};
+```
+
+Read this as: "run everything in `timeline` once for every item in `timeline_variables`, in a random order (`randomize_order: true`), and do the whole thing `repetitions: 3` times." This one object entirely replaces Session 2's loop-inside-a-loop — including the fixation cross, which now simply sits as the first item in `timeline`, running once before every stimulus.
+
+::: {.callout-note}
+## `stimulus_list` itself hasn't changed
+`timeline_variables: stimulus_list` uses the exact same array of `{image, category, correct_response}` objects you already built in Session 2 — nothing about how you define your stimuli is different today, only how you turn them into trials.
+:::
+
+### 1.3 A subtlety: no `...` this time
+
+In Session 2 you learned to write `[instructions_trial, ...stimulus_trials]`, using the spread operator because `stimulus_trials` was a plain array of individual trial objects. `main_procedure`, however, is a **single object** — a timeline node with its own nested `timeline` array inside it — not an array of trials. So it goes into the outer timeline directly, with no `...`:
+
+```js
+const timeline = [
+  instructions_trial,
+  main_procedure,   // <- no "..." here — this is one object, not an array
+  end_trial
+];
+```
+
+jsPsych recognizes `main_procedure` as a node (because it has a `timeline` property) and expands it into many trials internally, when the experiment runs.
+
+### 1.4 Feedback (and fixation) still work the same way
+
+Your `feedback_trial` from Session 2 needs no changes at all — you can include it directly inside a timeline node's `timeline` array, right after the stimulus trial, and it will run after every repetition. The same goes for `fixation_trial`: just another item in the array, running once per repetition, before the stimulus:
+
+```js
+const practice_procedure = {
+  timeline: [fixation_trial, practice_stimulus_trial, feedback_trial],
+  timeline_variables: jsPsych.randomization.shuffle(stimulus_list).slice(0, 4)
+};
+```
+
+Notice this still uses `jsPsych.randomization.shuffle().slice(0, 4)` from Session 2, just like before — timeline variables don't replace everything you know about randomization, only the trial-building loop.
+
+::: {.callout-note}
+## Debugging corner
+If every trial in a timeline-variables block shows the exact same image, double check you wrote `jsPsych.timelineVariable("image")` (a function call) inside the trial template, rather than a fixed string like `"images/circle1.jpg"`.
+:::
+
+### Exercise 1
+
+::: {.callout-warning}
+## Exercise 1
+In `experiment.html`, replace your Session 2 loops with timeline variables:
+
+1. Write `practice_stimulus_trial` and `main_stimulus_trial` templates, using `jsPsych.timelineVariable(...)` for `stimulus`, `category`, and `correct_response`.
+2. Build `practice_procedure` (`timeline: [fixation_trial, practice_stimulus_trial, feedback_trial]`, on a shuffled subset of 4) and `main_procedure` (`timeline: [fixation_trial, main_stimulus_trial]`, no feedback, `randomize_order: true`, `repetitions: 3`) — keep `fixation_trial` itself exactly as it was in Session 2, just re-used here as the first item in each `timeline` array.
+3. Update your `timeline` array so `practice_procedure` and `main_procedure` are included directly — no `...`.
+4. Run the experiment and confirm it behaves exactly like your Session 2 version (fixation cross included), just built differently underneath.
+
+Compare your result to `checkpoint_1_timeline_variables.html` when you're done.
+:::
+
+---
+
+## Part 2 — Preloading Stimuli {#sec-part2}
+
+*(≈ 20 minutes)*
+
+### 2.1 Why preload?
+
+On your own laptop, with images stored locally, loading has always been instant. In a real study, participants load your experiment over the internet, sometimes on a slow connection — without preloading, an image can visibly flicker in partway through a trial, throwing off both what the participant sees and your reaction-time measurements.
+
+The **preload** plugin downloads every image into the browser's memory *before* the experiment starts, so nothing needs to load mid-trial. This is a new plugin — add its script tag to `<head>` before continuing (see the table above):
+
+```html
+<script src="jspsych/plugin-preload.js"></script>
+```
+
+### 2.2 Telling preload which files to load
+
+The preload plugin needs one specific thing: a plain array of file path strings. Nothing more — just something that looks like this:
+
+```js
+["images/circle1.jpg", "images/circle2.jpg", "images/circle3.jpg", "images/circle4.jpg",
+ "images/square1.jpg", "images/square2.jpg", "images/square3.jpg", "images/square4.jpg"]
+```
+
+That's it — eight plain strings, in an array. We already have this same information — but wrapped up inside `stimulus_list`, as one piece of each object (`{image: "images/circle1.jpg", category: ..., correct_response: ...}`), not as a plain list on its own. So our job is to pull just the `.image` part out of each of the 8 objects in `stimulus_list`, and collect those 8 strings into a new, separate array. A `for` loop does this, the same loop pattern you've used since Session 1:
+
+```js
+let all_image_paths = [];
+
+for (let i = 0; i < stimulus_list.length; i++) {
+  all_image_paths.push(stimulus_list[i].image);
+}
+```
+
+Walk through what happens: the loop runs 8 times (once per item in `stimulus_list`). Each time, `stimulus_list[i].image` reads out one image path (e.g. `"images/circle1.jpg"`), and `.push(...)` adds it onto the end of `all_image_paths`. After all 8 loops, `all_image_paths` is *exactly* the plain array of 8 strings shown at the top of this section — ready to hand to the preload plugin:
+
+```js
+const preload_trial = {
+  type: jsPsychPreload,
+  images: all_image_paths
+};
+```
+
+::: {.callout-note}
+## Couldn't jsPsych just figure this out on its own?
+It's a fair question, since `stimulus_list` already has everything jsPsych would need. In fact, jsPsych *can* build this list automatically, but only in the specific case where a trial's `stimulus` is written directly as a fixed piece of text, like `stimulus: "images/circle1.jpg"` sitting right there in the trial. That's not what Part 1's trials look like anymore — they use `stimulus: jsPsych.timelineVariable("image")`, which doesn't contain an actual file path at all until the experiment is already running. So there's nothing for jsPsych to find in advance, and building `all_image_paths` ourselves is the straightforward fix.
+:::
+
+Add `preload_trial` as the very first item in your timeline, before `instructions_trial`.
+
+::: {.callout-note}
+## Debugging corner
+If the preload screen seems to hang, check your image file paths carefully — a single typo (e.g. `image` instead of `images`) will make one file fail to load, and the preload trial will wait for it. Opening your browser's Network tab (in the same developer tools you used for the console) lets you see exactly which file requests failed.
+:::
+
+### Exercise 2
+
+::: {.callout-warning}
+## Exercise 2
+Add preloading to your Exercise 1 experiment: build `all_image_paths` with a `for` loop, define `preload_trial`, and add it as the first item in your timeline.
+
+Compare your result to `checkpoint_2_preload.html` when you're done.
+:::
+
+---
+
+## Part 3 — Participant Info & Saving Data {#sec-part3}
+
+*(≈ 40 minutes)*
+
+### 3.0 A short consent screen
+
+Before asking for any information, participants should agree to take part. This needs no new plugin — it's just another `jsPsychHtmlKeyboardResponse` trial, the same one you've used since Session 1:
+
+```js
+const consent_trial = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `
+    <p>Before starting, please read the following:</p>
+    <p style="max-width:500px; margin:0 auto; text-align:left;">
+      This is a short categorization task for a course exercise.
+      Your responses are recorded anonymously and used only for
+      this class. Participation is voluntary — you may stop at
+      any time.
+    </p>
+    <p>Press <b>Y</b> to agree and continue, or <b>N</b> to decline.</p>
+  `,
+  choices: ["y", "n"],
+  on_finish: function (data) {
+    if (data.response === "n") {
+      jsPsych.abortExperiment("You chose not to continue. Thank you for your time.");
+    }
+  }
+};
+```
+
+The only genuinely new piece here is `jsPsych.abortExperiment("message")` — another method on the same `jsPsych` object you've been using all along (alongside `.run()`, `.data`, `.randomization`), which immediately stops the experiment and displays the given message instead of continuing to the next trial. `on_finish` checks which key was pressed, exactly the same way you've checked `data.response` since Session 2.
+
+Add `consent_trial` as the very first item in your timeline — before even the participant ID question.
+
+::: {.callout-note}
+## A real study needs more than this
+A real, ethics-board-approved study would need a fuller information sheet and formal consent record. This simplified version is meant to build the habit — asking for consent *before* collecting anything — not to replace what an actual ethics application requires.
+:::
+
+### 3.0.1 Optional: a full consent form as its own file
+
+For a real study, your information sheet is often long — logo, study details, a full list of conditions, GDPR notices — too long to comfortably write as one HTML string inside a trial. jsPsych has a plugin for exactly this: **external-html**, which loads a *separate, complete HTML file* and waits for the participant to click a specific button in it before continuing.
+
+Add its script tag:
+
+```html
+<script src="jspsych/plugin-external-html.js"></script>
+```
+
+The trial itself is short — nearly all the real content lives in the external file, not in your experiment script:
+
+```js
+const consent_trial = {
+  type: jsPsychExternalHtml,
+  url: "consent/informed_consent_en.html",
+  cont_btn: "accept_consent_button"
+};
+```
+
+`url` points to the HTML file to load and display, exactly as written — including its own `<style>`, images, and buttons. `cont_btn` is the `id` of the button *inside that file* that the participant must click to move on — jsPsych waits until it's clicked, however long that takes.
+
+A full example consent page, adapted for this course (Erasmus University Rotterdam, with placeholder researcher contact details you should replace before real use), is provided in `consent/informed_consent_en.html`, along with a small working demo in `consent_external_demo.html`.
+
+::: {.callout-important}
+## Before using this for a real study
+The provided consent file uses a placeholder logo and placeholder researcher names ("Jane Smith" / "John Doe") — replace these, along with the actual ethics committee contact details, before using it with real participants. Writing a consent form's actual content isn't something jsPsych (or this course) can do for you — that comes from your study's ethics application.
+:::
+
+### 3.1 Asking for a participant ID
+
+jsPsych has a `survey-text` plugin for collecting typed responses — a new plugin, so add its script tag to `<head>` first:
+
+```html
+<script src="jspsych/plugin-survey-text.js"></script>
+```
+
+```js
+const participant_info_trial = {
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Please enter a participant ID:", name: "participant_id", required: true }
+  ]
+};
+```
+
+`name: "participant_id"` matters: it's how you'll find this response in the data afterwards, as `data.response.participant_id`.
+
+::: {.callout-important}
+## A note on participant IDs
+Ask for an anonymous code (a number, or a random string), never a name or email address. This keeps your data anonymized — worth building as a habit now, since it matters even more once you're collecting data from real participants in Session 4.
+:::
+
+### 3.2 Tagging every trial with the participant ID
+
+We want every row of data — not just this one trial — to include the participant's ID. `jsPsych.data.addProperties()` does exactly this: it tags every trial already collected, and every trial still to come, with whatever you give it.
+
+```js
+const participant_info_trial = {
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Please enter a participant ID:", name: "participant_id", required: true }
+  ],
+  on_finish: function (data) {
+    jsPsych.data.addProperties({ participant_id: data.response.participant_id });
+  }
+};
+```
+
+`on_finish` here is the same pattern from Session 2 — a function that runs right after this trial ends. It reads `data.response.participant_id` (what the participant just typed) and passes it to `addProperties()`.
+
+### 3.3 Saving data with a whole-experiment `on_finish`
+
+::: {.callout-note}
+## Quick reminder: what's `initJsPsych()`?
+`initJsPsych()` is the very first line of every experiment file you've written since Session 1, Part 4 — it creates the central `jsPsych` object that manages trials, timing, and data behind the scenes. Everything you do (`jsPsych.run()`, `jsPsych.data.get()`, `jsPsych.timelineVariable()`, `jsPsych.randomization.shuffle()`) is a method on this one object.
+:::
+
+Every `on_finish` you've used so far was attached to a single trial. `initJsPsych()` itself also accepts an `on_finish` — a function that runs once, after the *entire* experiment ends:
+
+```js
+const jsPsych = initJsPsych({
+  on_finish: function () {
+    jsPsych.data.get().localSave("csv", "shape_categorization_data.csv");
+  }
+});
+```
+
+`jsPsych.data.get()` — the same tool from Session 2's Challenge — returns everything collected during the experiment. `.localSave("csv", filename)` downloads it as a CSV file to your own computer.
+
+### 3.3.1 A second, cleaner file with just the responses
+
+The file above saves *every* trial — consent, instructions, fixation crosses, feedback text, the transition message, all of it. That's useful as a complete record, but it's not what you want to open in Excel or SPSS for analysis: only the actual stimulus-response trials (`practice_stimulus_trial` and `main_stimulus_trial`) matter for that.
+
+You already know how to select trials by a property with `.filter({phase: "main"})` (Session 2's Challenge). Since only the real stimulus trials have a `phase` set at all — fixation, feedback, instructions, consent, transition, and debrief trials don't — filtering by `phase` cleanly picks out just the trials you actually want, and nothing else. To keep both practice *and* main responses (rather than just main), `.filter()` also accepts an **array** of filter objects, which acts as "match any of these":
+
+```js
+const jsPsych = initJsPsych({
+  on_finish: function () {
+    // The full record - everything, including fixation crosses and feedback text
+    jsPsych.data.get().localSave("csv", "shape_categorization_data.csv");
+
+    // A second, clean file with only the real stimulus-response trials.
+    // [{phase: "practice"}, {phase: "main"}] means "keep a trial if it
+    // matches EITHER of these" - same idea as .filter({phase: "main"}),
+    // just for two possible values instead of one.
+    let responses_only = jsPsych.data.get().filter([{ phase: "practice" }, { phase: "main" }]);
+    responses_only.localSave("csv", "shape_categorization_responses_only.csv");
+  }
+});
+```
+
+Running the experiment now downloads **two files**: the full record, and a second `..._responses_only.csv` with nothing but the categorization trials — no consent, no instructions, no fixation crosses, no feedback text. That second file is the one to actually open in Excel or SPSS.
+
+::: {.callout-tip}
+## Only want the main block, not practice?
+Use `.filter({phase: "main"})` on its own, exactly as in Session 2's Challenge, instead of the two-item array above — practice trials are useful to check things worked, but usually aren't part of the real analysis.
+:::
+
+::: {.callout-note}
+## Does it matter where this code goes in the file?
+This code is the very first line of your file — you're not moving it to the end. That might seem strange, since it's *saving* data that doesn't exist yet. But writing a function here doesn't run it — it only tells jsPsych "call this function later, once everything else is done." The function itself doesn't actually execute until `jsPsych.run(timeline)` has finished every trial, at the very end. This is the same idea as `stimulus: function() {...}` from Session 2, Part 3: code you write early can still run later, whenever jsPsych decides to call it.
+:::
+
+::: {.callout-note}
+## Debugging corner
+`localSave()` is for local testing only — it downloads a file to *your* computer, which only makes sense while you're developing and testing. Once the experiment is actually running online with real participants, you'll need a different method (Session 4 covers this). If your browser blocks the download, check its download/pop-up settings.
+:::
+
+### 3.4 Opening your saved file in Excel or SPSS
+
+`localSave("csv", filename)` already saves a genuine, standard CSV file — not JSON, and nothing else needs converting. It's worth knowing what that actually means, though, since it explains one wrinkle you'll run into.
+
+::: {.callout-note}
+## CSV vs. JSON, briefly
+**CSV** ("comma-separated values") is a flat table: one line per row, values separated by commas, columns identified by a header row — exactly the shape Excel and SPSS expect. **JSON** is jsPsych's own *internal* format while the experiment is running: nested objects and lists, good for code, bad for a spreadsheet. `.csv()` and `localSave("csv", ...)` do the conversion from one to the other for you — you will not need to do this conversion yourself for your regular saved data.
+:::
+
+**The one wrinkle** — only relevant if you open the *full* file, not `..._responses_only.csv`: the `survey-text` plugin (your `participant_info_trial`) stores its answer as a small nested object (`{participant_id: "P07"}`), because it's built to handle multiple questions at once. When that specific row gets converted to CSV, its `response` column will contain the *text* of that object, looking something like `"{""participant_id"":""P07""}"` — a little alarming to see, but harmless. This row (and the consent row, fixation rows, and feedback rows) are exactly what 3.3.1's filtering already removes — which is the real reason to always work from `..._responses_only.csv` rather than the full file when you're actually analyzing data.
+
+::: {.callout-tip}
+## Opening the CSV in Excel
+Don't just double-click the file — for a clean import (correct comma handling and character encoding), use:
+
+1. Open Excel, then **Data → Get Data → From File → From Text/CSV** (or **Data → From Text/CSV** in older versions).
+2. Select your downloaded file.
+3. In the preview window, confirm **Delimiter** is set to **Comma** and **File Origin** is **UTF-8** — Excel sometimes guesses wrong, especially with the JSON-like text mentioned above.
+4. Click **Load**.
+:::
+
+::: {.callout-tip}
+## Opening the CSV in SPSS
+1. **File → Import Data → CSV Data...**
+2. Select your file.
+3. In the import dialog, confirm the **delimiter is comma**, and that **"the first line contains variable names"** is checked.
+4. Review the variable type guesses SPSS makes (it sometimes reads a numeric-looking column, like `participant_id`, as text if any participant used a non-numeric code — that's expected and fine).
+:::
+
+::: {.callout-important}
+## If you ever end up with a `.json` file instead
+This shouldn't happen if you follow the steps above (`"csv"`, not `"json"`), but if you or a student accidentally saves JSON — or wants to double check a JSON export against the CSV — Excel can convert it directly, no extra tools needed:
+
+1. **Data → Get Data → From File → From JSON**, and select the file.
+2. Excel opens the **Power Query Editor**, showing your data as a structured list. Click the "Expand" icon (two arrows) on the relevant column to unfold nested fields into their own columns.
+3. This can get messy if a field is itself a list (e.g. an array of every key pressed during a trial) — such a field may expand into far more rows than you expect, one per list item. If that happens, it's usually easier to remove that specific column and stick with the CSV version, which already flattens sensible data for you.
+4. Click **Close & Load** once the columns look right.
+
+For a one-off, informal conversion, plenty of free online JSON-to-CSV tools also exist — but be mindful before pasting real participant data into any third-party website, even anonymized data. Excel's own Power Query avoids that concern entirely, since nothing leaves your computer.
+:::
+
+### Exercise 3
+
+::: {.callout-warning}
+## Exercise 3
+Extend your Exercise 2 experiment:
+
+1. Add `consent_trial` as the very first item in your timeline.
+2. Add `participant_info_trial` (with the `on_finish` shown above) right after it.
+3. Change `initJsPsych()` to `initJsPsych({ on_finish: ... })`, saving **both** the full CSV and the filtered `responses_only` CSV, as shown in 3.3.1.
+4. Run the experiment: try pressing **N** at the consent screen first, and confirm the experiment stops with your message. Then run it again, press **Y**, enter a test ID, and confirm **two** CSV files download at the end. Open the `..._responses_only.csv` one and check that it contains only stimulus trials — no consent, instructions, fixation, or feedback rows — with `participant_id` as a column on every row.
+
+Compare your result to `checkpoint_3_participant_data.html` when you're done.
+:::
+
+---
+
+## Part 4 — Reading & Inspecting Data {#sec-part4}
+
+*(≈ 40 minutes)*
+
+### 4.1 From counting trials to computing accuracy and RT
+
+In Session 2's optional Challenge, you used `jsPsych.data.get().filter({phase: "main"}).count()` to count trials. Today we extend that same pattern to compute real summary statistics:
+
+```js
+let main_trials_data = jsPsych.data.get().filter({ phase: "main" });
+let correct_trials_data = main_trials_data.filter({ correct: true });
+
+let accuracy = Math.round(
+  (correct_trials_data.count() / main_trials_data.count()) * 100
+);
+let mean_rt = Math.round(correct_trials_data.select("rt").mean());
+```
+
+Breaking this down:
+
+- **`.filter({ phase: "main" })`** — same as Session 2's Challenge: keeps only main-block trials (practice doesn't count towards real performance).
+- **`.filter({ correct: true })`** (chained onto the result) — narrows down further, to just the correct ones. You can chain `.filter()` calls like this to combine conditions.
+- **`.count()`** — how many trials are in a filtered set; dividing correct by total, and multiplying by 100, gives a percentage.
+- **`.select("rt")`** — pulls out just the `rt` (reaction time) value from each trial, as a column.
+- **`.mean()`** — the average of that column.
+
+### 4.2 A debrief screen, using a function again
+
+This is the same pattern as `feedback_trial` in Session 2, Part 3 — a `stimulus` function that reads data and builds a message:
+
+```js
+const debrief_trial = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: function () {
+    let main_trials_data = jsPsych.data.get().filter({ phase: "main" });
+    let correct_trials_data = main_trials_data.filter({ correct: true });
+
+    let accuracy = Math.round(
+      (correct_trials_data.count() / main_trials_data.count()) * 100
+    );
+    let mean_rt = Math.round(correct_trials_data.select("rt").mean());
+
+    return (
+      "<p>You responded correctly on " + accuracy + "% of trials.</p>" +
+      "<p>Your average correct response time was " + mean_rt + "ms.</p>" +
+      "<p>Press any key to finish.</p>"
+    );
+  }
+};
+```
+
+Add `debrief_trial` to your timeline right after `main_procedure`, and before `end_trial`.
+
+::: {.callout-note}
+## Debugging corner
+If `accuracy` or `mean_rt` shows up as `NaN` ("not a number"), the most common cause is a mismatch between the property name used when *filtering* (e.g. `"correct"`) and the property name actually stored in your trial's `data` or `on_finish` (Session 2, Part 3) — double check the spelling matches exactly in both places.
+:::
+
+### Exercise 4
+
+::: {.callout-warning}
+## Exercise 4
+Add `debrief_trial` to your Exercise 3 experiment, placed between `main_procedure` and `end_trial`. Run the full experiment end to end and confirm the debrief screen reports a sensible accuracy percentage and reaction time.
+
+Compare your result to `checkpoint_4_debrief.html` when you're done — this is the full Session 3 experiment.
+:::
+
+### Challenge (optional)
+
+::: {.callout-important}
+## Challenge A — per-category accuracy
+Extend the debrief message to also report accuracy **separately for circles and squares** (hint: filter by `category` as well as `phase` and `correct`, the same way you already filter by more than one property).
+
+This is a preview of Session 4, where you'll be assembling entire experiments — including debrief screens like this — largely on your own.
+:::
+
+::: {.callout-important}
+## Challenge B — tagging the saved file with participant ID and timestamp
+Right now, every participant's data overwrites the same filename (`shape_categorization_data.csv`). Modify `localSave()` so the filename includes both the participant's ID and a timestamp, e.g. `P07_2026-07-17T14-32-00.csv`.
+
+You'll need:
+
+- A variable declared *outside* any trial, before `participant_info_trial`, so it can be read again later inside the whole-experiment `on_finish` (which runs after `participant_info_trial` has already set it).
+- `new Date()` to get the current date and time — a JavaScript built-in, not part of jsPsych. Look up how to turn a `Date` into a filename-safe string (hint: `.toISOString()` is a good starting point, but check what characters it produces and whether they're safe in a filename).
+
+Your instructor will share a worked solution for both challenges after this session.
+:::
+
+---
+
+## Bonus: Other Useful Data to Store
+
+A few more variables are worth knowing about, since they come up constantly in real studies.
+
+### Presentation time and response time — already automatic
+
+You don't need to write any code for these — jsPsych records them for every trial automatically:
+
+- **`rt`** — the response time, in milliseconds, from when the trial's stimulus appeared to when the participant responded. This is the same `rt` you've already used in Part 4's debrief (`.select("rt").mean()`).
+- **`time_elapsed`** — the cumulative time, in milliseconds, since the experiment began, recorded at the end of every trial.
+
+### Total experiment duration
+
+Since `time_elapsed` accumulates throughout the whole experiment, the *last* trial's `time_elapsed` value is the total experiment duration. You can read it inside your whole-experiment `on_finish`:
+
+```js
+const jsPsych = initJsPsych({
+  on_finish: function () {
+    let all_data = jsPsych.data.get();
+    let total_duration_ms = all_data.values()[all_data.count() - 1].time_elapsed;
+    jsPsych.data.addProperties({ total_duration_ms: total_duration_ms });
+
+    let filename = participant_id_value + "_" + build_timestamp() + ".csv";
+    all_data.localSave("csv", filename);
+  }
+});
+```
+
+`all_data.values()` gives you the array of every trial's data; `all_data.count() - 1` is the index of the last one (arrays count from 0, same as Session 1, Part 3.2).
+
+### Device and browser info
+
+A new plugin, **browser-check**, records details about the participant's device and browser — screen size, browser type, operating system, and whether they're on a mobile device — and can end the experiment immediately if it doesn't meet your requirements.
+
+```html
+<script src="jspsych/plugin-browser-check.js"></script>
+```
+
+```js
+const browser_check_trial = {
+  type: jsPsychBrowserCheck,
+  minimum_width: 800,
+  minimum_height: 600,
+  inclusion_function: (data) => {
+    return data.mobile === false;
+  },
+  exclusion_message: (data) => {
+    return "<p>Sorry, this experiment can only be completed on a desktop or laptop computer, not a phone or tablet.</p>";
+  }
+};
+```
+
+By default, this plugin measures: `width`, `height`, `webaudio`, `browser`, `browser_version`, `mobile`, `os`, `fullscreen`, `vsync_rate`, `webcam`, and `microphone` — all of it saved to the data automatically, no extra code needed. `inclusion_function` receives all of these measurements and returns `true` or `false`; if `false`, the experiment ends immediately (similar to `jsPsych.abortExperiment()` from Part 3.0) and `exclusion_message` is shown instead.
+
+Add `browser_check_trial` as the very first item in your timeline — before even the consent screen, since there's no point asking for consent from a device that can't run the experiment anyway.
+
+A working demo is provided in `browser_check_demo.html`.
+
+::: {.callout-note}
+## Debugging corner
+`data.mobile`, `data.browser`, and `data.os` are detected by parsing the browser's user-agent string — accurate most of the time, but not guaranteed for every device. Don't rely on this for anything safety-critical; for excluding participants from a behavioral study, it's more than good enough.
+:::
+
+---
+
+## Bonus: Adaptive Logic — Repeating and Skipping Blocks
+
+So far, a timeline node's structure is fixed once you write it: `repetitions: 3` always means exactly 3. Two more options let a node adapt to what actually happened.
+
+### `loop_function`: repeat a block based on performance
+
+```js
+const practice_procedure = {
+  timeline: [fixation_trial, practice_stimulus_trial, feedback_trial],
+  timeline_variables: stimulus_list,
+  randomize_order: true,
+
+  // Runs once, right after this block finishes. It's given only the
+  // data from THIS pass through the timeline (not the whole
+  // experiment) - return true to repeat the whole block, false to move on.
+  loop_function: function (data) {
+    let stimulus_trials = data.filter({ phase: "practice" });
+    let correct_trials = stimulus_trials.filter({ correct: true });
+    let accuracy = correct_trials.count() / stimulus_trials.count();
+
+    return accuracy < 0.8; // repeat if below 80%, otherwise move on
+  }
+};
+```
+
+This reuses `.filter()` and `.count()` exactly as in Part 4 — the only new idea is *what data `loop_function` receives*: just this one pass through the block, not `jsPsych.data.get()`'s full history. If the participant's practice accuracy is too low, the entire practice block (freshly reshuffled) runs again automatically.
+
+### `conditional_function`: skip a block entirely
+
+```js
+const extra_help_node = {
+  timeline: [extra_help_trial],
+  conditional_function: function () {
+    return practice_repeated; // a plain variable you set yourself, e.g. inside loop_function
+  }
+};
+```
+
+If `conditional_function` returns `false`, the whole node is skipped — useful for something like extra instructions that should only appear if practice needed repeating.
+
+::: {.callout-note}
+## Debugging corner
+`loop_function` and `conditional_function` are easy to swap in your head: `loop_function` decides whether to **run the same block again**; `conditional_function` decides whether to **run this block at all**. If a block that should only repeat once in a while seems to run forever, check that your accuracy calculation can actually reach the passing threshold — an impossible threshold (e.g. requiring 100% on a 4-trial block) will loop indefinitely.
+:::
+
+A working demo is provided in `adaptive_practice_demo.html`.
+
+---
+
+## Bonus: Counterbalancing by Participant ID
+
+Randomization (Session 2) mixes up trial order **within** one participant's run. **Counterbalancing** is different: making sure that **across** participants, different people see conditions in different orders, so the order itself doesn't become a hidden confound.
+
+A simple approach uses the participant ID itself, and one new operator:
+
+```js
+// % is the "modulo" (remainder) operator: x % 2 is 0 for even numbers, 1 for odd
+let counterbalance_group = (parseInt(participant_id_value) % 2 === 0) ? "A" : "B";
+jsPsych.data.addProperties({ counterbalance_group: counterbalance_group });
+```
+
+Then use `counterbalance_group` to decide the order, instead of shuffling:
+
+```js
+let ordered_stimuli = (counterbalance_group === "A")
+  ? circle_block.concat(square_block)
+  : square_block.concat(circle_block);
+
+const main_procedure = {
+  timeline: [stimulus_trial],
+  timeline_variables: ordered_stimuli
+  // no randomize_order here - the point is to KEEP this specific order
+};
+```
+
+`.concat()` joins two arrays end to end — new syntax, but the same mental model as `.push()` from Session 2: building one array out of pieces you already have.
+
+::: {.callout-important}
+## Counterbalancing vs. randomization — not a replacement
+This doesn't replace `shuffle()` — the two solve different problems. Randomizing trial order (Session 2) protects against *order effects within* a participant's run. Counterbalancing protects against *the same confound across* your whole sample — e.g. every participant happening to see circles before squares, which would make it impossible to tell a real circle/square effect apart from a first-block/second-block effect.
+:::
+
+A working demo is provided in `counterbalance_demo.html`.
+
+---
+
+## Summary
+
+Today your Session 2 experiment became something closer to a real, runnable pilot study:
+
+- **`timeline_variables`** replaced hand-written loops for repeating and randomizing trials.
+- **Preloading** ensures images display without delay, important once real participants (on real connections) are running the study.
+- **A consent screen** and **`jsPsych.abortExperiment()`** give participants a real choice about whether to continue.
+- **`survey-text`** and **`jsPsych.data.addProperties()`** collect a participant ID and tag it onto every row of data.
+- **A whole-experiment `on_finish`** and **`.localSave()`** save the collected data to a genuine CSV file, ready to open directly in Excel or SPSS.
+- **Chained `.filter()`, `.count()`, and `.select().mean()`** compute accuracy and reaction time, letting you build a debrief screen from real results.
+- **`time_elapsed`** gives you total experiment duration for free, and **browser-check** records device info and can screen out unwanted devices.
+
+In Session 4, you'll build a complete experiment from a specification, largely on your own, choosing from a small menu of classic cognitive psychology tasks — and then put it online for real participants to complete.
+
+::: {.callout-important}
+## Homework before Session 4: create your accounts now
+
+Session 4 involves putting your experiment online using GitHub Pages and DataPipe (which sends data to the Open Science Framework). Creating these accounts takes 15–20 minutes and involves waiting on a couple of confirmation emails — none of which is a good use of shared class time. **Please do the following before Session 4:**
+
+1. **A GitHub account**
+   - Go to <https://github.com/signup> and create a free account, if you don't already have one.
+   - No repository needs to be created yet — just the account itself.
+
+2. **An OSF (Open Science Framework) account**
+   - Go to <https://osf.io> and click "Sign Up." You can sign up directly, or via your institution if your university is listed (look for "Sign in through institution").
+   - Once logged in, click **"Create new project"**, give it any name (e.g. "Session 4 Experiment"), and leave the rest of the settings as default. Note the project's ID from its URL — e.g. if the URL is `https://osf.io/pvd4f/`, the project ID is `pvd4f`. You'll need this in Session 4.
+   - Under **Settings → Personal Access Tokens** (`https://osf.io/settings/tokens`), click **"Create Token"**, give it a name, and make sure it has read/write access to your project. Copy the resulting token somewhere safe — you'll need it in the next step, and you won't be able to see it again later.
+
+3. **A DataPipe account**
+   - Go to <https://pipe.jspsych.org> and create a free account.
+   - Under **Account → Settings**, click **"Set OSF Token"** and paste in the token you generated in the previous step, to link your DataPipe account to your OSF account.
+   - Click **"Create New Experiment"**, and link it to the OSF project you created above (using its project ID). Once created, enable both **data collection** and **base64 data collection**, and disable **data validation**. Note the **DataPipe experiment ID** shown on this page — you'll need it in Session 4.
+
+::: {.callout-tip}
+## If anything goes wrong
+These are all free, standard account-creation flows, but institutional email verification or single sign-on can occasionally be slow. If you hit a wall with any step, don't spend more than 10–15 minutes on it — flag it to the instructor before Session 4 rather than during it, so it doesn't eat into build time.
+:::
+:::
+

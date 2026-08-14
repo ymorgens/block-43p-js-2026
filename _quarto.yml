@@ -1,0 +1,44 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Experimental Programming in the Cognitive Sciences"
+  description: "Master's Programme in Brain and Cognition — jsPsych course"
+  page-navigation: true
+  back-to-top-navigation: true
+  page-footer:
+    left: "Experimental Programming in the Cognitive Sciences — Master's Programme in Brain and Cognition"
+    right: "Built with [Quarto](https://quarto.org)"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - text: "Course Manual"
+        href: index.qmd
+      - section: "Sessions"
+        contents:
+          - text: "Session 1: Building Your First Experiment"
+            href: sessions/session1.qmd
+          - text: "Session 2: Making Experiments Interesting"
+            href: sessions/session2.qmd
+          - text: "Session 3: Running a Real Study"
+            href: sessions/session3.qmd
+          - text: "Session 4: Building From Scratch"
+            href: sessions/session4.qmd
+      - text: "Templates & Materials"
+        href: materials.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-location: right
+    code-copy: true
+    smooth-scroll: true
+    link-external-newwindow: true
+
+execute:
+  eval: false
+  echo: true

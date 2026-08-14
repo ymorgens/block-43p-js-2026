@@ -1,0 +1,11 @@
+/* Minimal site-wide tweaks */
+
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Slightly narrower line length for readability on wide screens */
+main.content {
+  max-width: 900px;
+}

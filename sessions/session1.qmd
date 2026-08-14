@@ -1,0 +1,566 @@
+---
+title: "Session 1: Building Your First Online Experiment"
+subtitle: "Experimental Programming in the Cognitive Sciences"
+author: "Master's Programme in Brain and Cognition"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: true
+    code-fold: false
+    code-copy: true
+    theme: cosmo
+    highlight-style: github
+    smooth-scroll: true
+execute:
+  eval: false
+  echo: true
+---
+
+## Welcome
+
+In this course you will learn to build web-based experiments using **jsPsych**, one of the most widely used JavaScript libraries for online behavioural research. By the end of the four sessions, you will be able to design, program, and deploy your own experiment.
+
+This first session lays the foundation. You do **not** need any prior experience with web programming — we will build everything up from first principles. By the end of today, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
+
+::: {.callout-note}
+## Learning objectives
+
+By the end of this session you will be able to:
+
+- Explain the roles of HTML, CSS, JavaScript, and jsPsych, and how they work together.
+- Edit files in Visual Studio Code (VS Code).
+- Modify the structure and appearance of a webpage.
+- Write and run simple JavaScript code.
+- Run and modify a simple jsPsych experiment.
+:::
+
+::: {.callout-note}
+## Session timing at a glance
+
+| Part | Time |
+|---|---|
+| Part 1 — Project structure | 10 min |
+| Part 2 — HTML and CSS | 20 min |
+| Part 3 — JavaScript basics | 50 min |
+| Part 4 — First jsPsych experiment | 50 min |
+| **Total hands-on time** | **130 min** |
+
+For a 3-hour (180-minute) session, this leaves roughly 50 minutes of buffer for introductions, breaks, and troubleshooting — treat the times above as a guide, not a strict schedule.
+:::
+
+---
+
+## Before the Practical
+
+Please complete these steps **before** the session starts, so that we can dive straight into the material together.
+
+### 1. Install Visual Studio Code
+
+VS Code is a free, lightweight code editor that we will use throughout the course.
+
+1. Go to <https://code.visualstudio.com/>.
+2. Download the version for your operating system (Windows, macOS, or Linux).
+3. Run the installer. Accept the License Agreement; the default installation options are fine.
+
+### 2. Download the course template
+
+Your instructor will provide a ZIP file containing the course template for this session.
+
+1. Download the ZIP file.
+2. Unzip/extract it to a convenient location on your computer (e.g. `Documents/jspsych-course`).
+
+### 3. Open the template in VS Code
+
+1. Open VS Code.
+2. Go to **File → Open Folder…** (on macOS: **File → Open…**) and select the template folder you just unzipped.
+3. You should now see the project files listed in the **Explorer** panel on the left, including:
+   - `index.html`
+   - `style.css`
+   - `experiment.js`
+   - an `images/` folder
+   - a `jspsych/` folder
+
+### 4. Install the Live Server extension (recommended)
+
+Live Server lets you preview your webpage in the browser and see your changes update instantly, without manually refreshing.
+
+1. In VS Code, click the **Extensions** icon in the sidebar (it looks like four small squares).
+2. Search for **"Live Server"** (by Ritwick Dey).
+3. Click **Install**.
+
+::: {.callout-tip}
+Once installed, you can right-click any `.html` file in the Explorer and choose **"Open with Live Server"** to preview it in your browser.
+:::
+
+---
+
+## Part 1 — Understanding the Project Structure {#sec-part1}
+
+*(≈ 10 minutes)*
+
+### The building blocks of a webpage
+
+Every webpage you have ever visited — including the online experiments you will build in this course — is constructed from the same three core technologies:
+
+| Technology | Role | Analogy |
+|---|---|---|
+| **HTML** (HyperText Markup Language) | Defines the *content* and *structure* of a page: text, images, buttons, containers. | The skeleton and organs of a body |
+| **CSS** (Cascading Style Sheets) | Defines the *appearance*: colours, fonts, spacing, layout. | The skin, clothing, and styling |
+| **JavaScript** | Defines the *behaviour*: what happens when someone clicks, types, or waits. It makes the page interactive. | The muscles and nervous system — what makes the body *move and react* |
+
+On top of these three, we use **jsPsych**, a JavaScript *library* specifically designed for building psychology experiments. A library is simply a collection of pre-written JavaScript code that saves us from writing everything from scratch — jsPsych already knows how to present trials, record reaction times, randomise trial order, and save data.
+
+::: {.callout-important}
+## Key idea
+jsPsych is *not* a different language — it is JavaScript code that other researchers have written for us, which we call (or "use") in our own JavaScript files.
+:::
+
+### Inspecting the project structure
+
+Open the template folder and look at the files:
+
+```
+jspsych-course/
+├── index.html      <- the webpage itself (structure and content)
+├── style.css        <- the appearance of the webpage
+├── experiment.js     <- your own JavaScript code
+├── images/          <- image files used in the page/experiment
+└── jspsych/          <- the jsPsych library files (do not edit these)
+```
+
+::: {.callout-tip}
+## Try it yourself
+1. Open `index.html`, `style.css`, and `experiment.js` in VS Code (single click on each in the Explorer).
+2. In the Explorer, open the `images/` and `jspsych/` folders and see what is inside them.
+3. Right-click `index.html` and select **"Open with Live Server"**. Confirm that a browser tab opens and shows the page.
+:::
+
+### How the files connect
+
+`index.html` "links" to the other two files, telling the browser to load them alongside the page's content. Near the top or bottom of `index.html` you will see lines such as:
+
+```html
+<link rel="stylesheet" href="style.css">
+<script src="experiment.js"></script>
+```
+
+The `<link>` tag pulls in the CSS file (appearance), and the `<script>` tag pulls in the JavaScript file (behaviour). This is the essential pattern behind almost every webpage: **one HTML file, linked to CSS and JavaScript files.**
+
+::: {.callout-tip}
+## Try it yourself
+Find these `<link>` and `<script>` lines in your `index.html` file.
+
+`index.html` doesn't link in jsPsych yet — we only need that in Part 4. But the same pattern is used to load it. Open `example_3.html` (you won't use it until later today) and see if you can spot the lines that link in the jsPsych library files.
+:::
+
+::: {.callout-note collapse="true"}
+## Click to reveal the answer
+In `example_3.html`, jsPsych is linked in with:
+
+```html
+<script src="jspsych/jspsych.js"></script>
+<script src="jspsych/plugin-html-keyboard-response.js"></script>
+<link rel="stylesheet" href="jspsych/jspsych.css">
+```
+
+Same idea as before: two `<script>` tags load the JavaScript (the core library, plus one plugin), and one `<link>` tag loads jsPsych's CSS so trials look nicely formatted.
+:::
+
+### A note on comments
+
+Open any file in the template and you'll notice lines that the computer seems to ignore — grey or green text starting with `//`, `/* ... */`, or `<!-- ... -->`. These are **comments**: notes written for humans, not instructions for the computer. The browser skips over them completely.
+
+Each language has its own comment syntax:
+
+```html
+<!-- This is an HTML comment -->
+```
+
+```css
+/* This is a CSS comment */
+```
+
+```js
+// This is a single-line JavaScript comment
+
+/* This is a
+   multi-line JavaScript comment */
+```
+
+Comments are one of the most useful habits you can build as a programmer: they let you (or a collaborator) understand *why* a piece of code exists, without having to reverse-engineer it. We've added comments throughout the template files to explain what each part does — use them as a guide as you work through today's exercises.
+
+::: {.callout-tip}
+## Try it yourself
+Find one HTML comment, one CSS comment, and one JavaScript comment somewhere in the template files. Try adding a short comment of your own above one line of code, describing what that line does.
+:::
+
+---
+
+## Part 2 — HTML and CSS {#sec-part2}
+
+*(≈ 20 minutes)*
+
+### 2.1 HTML: structuring content
+
+HTML consists of **elements**, written as tags. Most tags come in pairs: an opening tag and a closing tag, wrapping around some content.
+
+```html
+<h1>This is a heading</h1>
+<p>This is a paragraph of text.</p>
+<img src="images/face1.jpg" alt="A face stimulus">
+```
+
+- `<h1>...</h1>` — a top-level heading.
+- `<p>...</p>` — a paragraph of text.
+- `<img>` — an image; note it is "self-closing" (no separate closing tag) and uses the `src` attribute to point to an image file, and `alt` to provide a text description (important for accessibility).
+
+::: {.callout-tip}
+## Try it yourself
+Open `index.html` and locate the `<h1>`, `<p>`, and `<img>` elements.
+
+**Step 1.** Change the title text inside the `<h1>` tags.
+**Step 2.** Replace the paragraph text inside the `<p>` tags with a sentence of your own.
+**Step 3.** Find any image on the web (e.g. via an image search), download it, and save it into your `images/` folder. Then edit the `src` attribute of the `<img>` tag so it points to your new file — remember the filename must match exactly, including the file extension (`.jpg`, `.png`, etc.).
+
+Save the file and check your Live Server preview — it should update automatically.
+:::
+
+### 2.2 CSS: styling content
+
+CSS rules target HTML elements and specify how they should look. A CSS rule has three parts: a **selector** (what to style), a **property** (what aspect), and a **value** (how).
+
+```css
+h1 {
+  color: blue;
+  text-align: center;
+}
+
+body {
+  background-color: lightgrey;
+}
+
+img {
+  width: 300px;
+  height: 300px;
+  border: 4px solid black;
+  border-radius: 12px;
+}
+```
+
+Here, `h1 { color: blue; }` means "make every `<h1>` element's text colour blue."
+
+A few more properties worth knowing, beyond the ones above:
+
+| Property | What it does |
+|---|---|
+| `width` / `height` | Size of an element, e.g. `300px` |
+| `border` | A line around an element, e.g. `4px solid black` |
+| `border-radius` | Rounds the corners of an element, e.g. `12px` |
+| `padding` | Space *inside* an element, between its border and its content |
+| `margin` | Space *outside* an element, between it and its neighbours |
+| `font-weight` | Boldness of text, e.g. `normal` or `bold` |
+
+::: {.callout-tip}
+## Try it yourself
+Open `style.css` and make the following changes:
+
+**Step 4.** Change the background colour (edit the `background-color` property on `body`).
+**Step 5.** Change the heading colour (edit the `color` property on `h1`).
+**Step 6.** Centre all text on the page (hint: `text-align: center;`).
+**Step 7.** Double the width **and** height of the image (hint: look at the current `width` and `height` values on `img` and multiply them by two).
+**Step 8.** Give the image a border and rounded corners using `border` and `border-radius`.
+
+Save and check the preview after each change.
+:::
+
+### Exercise 1
+
+::: {.callout-warning}
+## Exercise 1
+Modify the webpage so that:
+
+- The title is blue.
+- The background is light grey.
+- The image is twice as large as its original size.
+- All text is centred.
+
+Take a screenshot of your result once you are happy with it.
+:::
+
+---
+
+## Part 3 — JavaScript Basics {#sec-part3}
+
+*(≈ 50 minutes)*
+
+JavaScript is what makes a webpage interactive: it can respond to clicks and key presses, do calculations, store information, and change what is shown on the page.
+
+### 3.0 Meet the console
+
+Before writing any JavaScript of our own, let's meet the tool we'll use to see what our code is doing: the **browser console**.
+
+1. Open any page in your browser (e.g. `index.html` via Live Server).
+2. Open the developer console: press `F12`, or right-click on the page → *Inspect* → click the **Console** tab.
+3. Click into the console and type `2 + 2`, then press Enter.
+
+The console is a place where you can type JavaScript directly and see it run immediately — like a calculator, but far more powerful. Try a few more things directly in the console:
+
+```js
+2 + 2
+"hello" + " " + "world"
+let x = 10;
+x * 2
+```
+
+Notice that once you define `x`, the console remembers it — you can keep using `x` in later lines, just like a variable in a script.
+
+The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs. This is the single most useful debugging tool you will use in this course — whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
+
+```js
+console.log("This will appear in the console when the page loads");
+```
+
+::: {.callout-tip}
+## Try it yourself
+1. Open the console (as above) and try typing a few simple sums or short pieces of text.
+2. Open `experiment.js`, find the `console.log(...)` lines already there, and reload the page with the console open. Confirm you can see their output.
+:::
+
+### 3.1 Variables
+
+A **variable** is a named "container" for a piece of information.
+
+```js
+let participantID = 1;
+let condition = "A";
+```
+
+### 3.2 Arrays
+
+An **array** is an ordered list of values.
+
+```js
+let stimuli = ['face1.jpg', 'face2.jpg', 'face3.jpg'];
+console.log(stimuli[0]); // 'face1.jpg' — arrays start counting at 0!
+```
+
+### 3.3 Objects
+
+An **object** groups related pieces of information together, each with its own name (a "key").
+
+```js
+let participant = {
+  id: 1,
+  condition: 'A'
+};
+console.log(participant.condition); // 'A'
+```
+
+### 3.4 If statements
+
+An **if statement** runs some code only when a condition is true.
+
+```js
+if (participant.condition === 'A') {
+  console.log('Running condition A');
+} else {
+  console.log('Running a different condition');
+}
+```
+
+### 3.5 For loops
+
+A **for loop** repeats a block of code multiple times — very useful for going through a list of stimuli one by one.
+
+```js
+for (let i = 0; i < stimuli.length; i++) {
+  console.log('Stimulus ' + i + ': ' + stimuli[i]);
+}
+```
+
+Let's break down each part of that line:
+
+- **`stimuli.length`** — the number of items in the `stimuli` array (here, 3). Every array has a `.length` property that tells you how many items it contains.
+- **`i`** — a variable acting as a *counter*. It's a completely ordinary variable; `i` is just a common name for it (short for "index"). It starts at `0` (matching the first position in the array) and increases by 1 each time the loop repeats.
+- **`i++`** — shorthand for "increase `i` by 1". It's the same as writing `i = i + 1`.
+- **`i < stimuli.length`** — the loop keeps repeating *as long as this is true*. Once `i` reaches the length of the array, the loop stops. This is what stops the loop from trying to access a position that doesn't exist in the array.
+
+So the loop reads as: "starting at 0, keep going as long as `i` is smaller than the number of stimuli, and add 1 to `i` each time."
+
+::: {.callout-tip}
+## Try it yourself
+1. Open `experiment.js`.
+2. Type in the variable, array, object, if statement, and for loop examples above (or use the ones already provided in the template).
+3. Open your browser's **developer console** (usually `F12` or right-click → *Inspect* → *Console* tab) and check that the `console.log()` output appears there.
+4. Change the value of `condition` to something else and see how the output of the if statement changes.
+:::
+
+::: {.callout-note}
+## Why the console?
+The console is where JavaScript "talks back" to you. It's an essential debugging tool: whenever something isn't working, checking the console for errors or printed values is the first thing to do.
+:::
+
+### Exercise 2 — Image Carousel
+
+::: {.callout-warning}
+## Exercise 2
+Starting from the provided carousel template in `experiment.js`, modify the code so that:
+
+1. Another image is added to the carousel.
+2. The order of the images is changed.
+3. The carousel plays more slowly.
+4. Captions are added underneath each image.
+5. The background is changed to black.
+:::
+
+::: {.callout-note}
+## Extra scaffolding for step 4 (captions)
+
+Step 4 needs two new pieces of JavaScript vocabulary, plus one HTML edit:
+
+- **`document.querySelector("#caption")`** — this finds the HTML element with `id="caption"` on the page, so your JavaScript can control it. `document` refers to the whole webpage; `.querySelector(...)` searches it for an element matching whatever you give it; the `#` means "look for an `id`".
+- **`.textContent`** — once you have an element (like the one above), `.textContent` lets you read or change the text inside it, e.g. `myElement.textContent = "New text"`.
+
+To make this work:
+
+1. In `index.html`, add a new paragraph just below the `<img>` tag, with an `id` so JavaScript can find it:
+
+```html
+<img src="images/face1.jpg" alt="Placeholder face stimulus">
+<p id="caption"></p>
+```
+
+2. In `experiment.js`, near the top of the carousel code (next to `let carouselImage = ...`), select the new paragraph the same way:
+
+```js
+let captionText = document.querySelector("#caption");
+```
+
+3. Inside `showNextImage()`, alongside the line that updates `carouselImage.src`, update the caption too:
+
+```js
+captionText.textContent = carouselImages[currentIndex];
+```
+
+**What each line is actually doing** (connecting back to what you've already learned):
+
+- `document.querySelector("#caption")` — the `#` here works just like it did in `style.css` (Part 2.2): a `#id` selector picks out one specific element. The difference is that here we're selecting it in JavaScript, not CSS, so we can *read or change* it while the page is running, rather than just style it.
+- `let captionText = ...` — this is an ordinary variable (Part 3.1), except instead of storing a number or a word, it stores a reference to an HTML element.
+- `captionText.textContent = ...` — the `.something` here is the same dot notation you saw with objects in Part 3.3 (`participant.condition`). `textContent` is simply a property of the element that holds its visible text, and you can set it just like you'd set any other variable.
+- `carouselImages[currentIndex]` — this is array indexing from Part 3.2 (`stimuli[0]`), just using a variable (`currentIndex`) instead of a fixed number, so it always points at whichever image is currently showing.
+:::
+
+---
+
+## Part 4 — Your First jsPsych Experiment {#sec-part4}
+
+*(≈ 50 minutes)*
+
+### 4.1 What is jsPsych?
+
+jsPsych organises an experiment as a **timeline**: an ordered list of **trials**. Each trial specifies what to show the participant and how to record their response. jsPsych takes care of presenting each trial in order, timing everything precisely, and collecting the resulting data.
+
+### 4.2 Anatomy of a minimal jsPsych experiment
+
+Open `example_3.html` and look for the following four components:
+
+```js
+// 1. Initialise jsPsych
+const jsPsych = initJsPsych();
+
+// 2. Define one or more trials
+const trial = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: '<p>Hello, welcome to the experiment!</p>'
+};
+
+// 3. Build the timeline: an ordered array of trials
+const timeline = [trial];
+
+// 4. Run the experiment
+jsPsych.run(timeline);
+```
+
+- **`initJsPsych()`** creates the experiment object that manages everything behind the scenes.
+- A **trial** is a JavaScript object describing one screen of the experiment: which "plugin" to use (here, `jsPsychHtmlKeyboardResponse`, which shows HTML and waits for a key press) and what content (`stimulus`) to display.
+- The **timeline** is simply an array containing your trials, in the order you want them to run.
+- **`jsPsych.run(timeline)`** starts the experiment.
+
+::: {.callout-tip}
+## Try it yourself
+Open `example_3.html` in Live Server and locate, in the code, each of the four components above: `initJsPsych()`, the trial, the timeline, and `jsPsych.run(timeline)`. Change the text inside `stimulus` and confirm the change appears in the browser.
+:::
+
+### Where to go for more
+
+jsPsych's own documentation is thorough and example-driven — it's worth getting comfortable navigating it now, since you'll rely on it for the rest of the course:
+
+- [Hello world tutorial](https://www.jspsych.org/latest/tutorials/hello-world/) — covers the same minimal experiment structure as today, from scratch.
+- [List of all plugins](https://www.jspsych.org/latest/plugins/list-of-plugins/) — browse what other plugins exist (images, audio, surveys, button responses, and more) for ideas ahead of Session 2.
+- [`html-keyboard-response` plugin page](https://www.jspsych.org/latest/plugins/html-keyboard-response/) — the full list of parameters for the plugin you used today, including `choices`, `stimulus_duration`, and `trial_duration`.
+
+::: {.callout-tip}
+## Try it yourself
+Open the `html-keyboard-response` plugin page above and find the `choices` parameter in its parameter table. See what values it says are accepted — you'll need this for Exercise 3, below.
+:::
+
+### Exercise 3
+
+::: {.callout-warning}
+## Exercise 3
+1. Modify the first trial so that it only ends when the participant presses the spacebar.
+   - *Hint:* add a `choices` parameter to the trial, and set it to only allow the spacebar.
+2. Add a second `jsPsychHtmlKeyboardResponse` trial that displays the text: *"The experiment is finished."*
+3. Configure this second trial so that pressing any key has no effect (the trial should not end when a key is pressed).
+   - *Hint:* consult the [jsPsych documentation](https://www.jspsych.org/latest/plugins/html-keyboard-response/) to find the correct value for the `choices` parameter that disables all keys.
+:::
+
+::: {.callout-note collapse="true"}
+## Click to reveal a hint on syntax
+
+The `choices` parameter takes either an array of allowed key names, or one of two special text values:
+
+```js
+choices: [' ']       // only the spacebar ends the trial
+choices: "NO_KEYS"    // no key can end the trial
+```
+
+Try adding one of these to each trial and see what happens.
+:::
+
+### Challenge (optional)
+
+::: {.callout-important}
+## Challenge
+If you finish early, extend your experiment so it runs this sequence, in order:
+
+1. **A welcome screen** — a `jsPsychHtmlKeyboardResponse` trial with a stimulus like `"Welcome! Press any key to begin."` (you already have something like this from Exercise 3).
+2. **A fixation cross** — a trial that shows `+` for a fixed amount of time and does **not** wait for a key press.
+   - *Hint:* you'll need two new parameters: `choices: "NO_KEYS"` (no key ends the trial) and `trial_duration: 500` (the trial automatically ends after 500 milliseconds).
+3. **A stimulus with coloured text** — reuse a trial from earlier, but change the colour of the text using inline HTML/CSS inside the `stimulus` string, e.g. `"<p style='color:blue;'>BLUE</p>"`.
+
+Add all three trials to your `timeline` array, in this order.
+
+A fully worked version of this exact sequence is provided in **`challenge_example.html`** in your project folder — try building it yourself first, but if you get stuck (or want to compare your solution afterwards), open that file for reference.
+:::
+
+---
+
+## Summary
+
+Today you learned how HTML, CSS, JavaScript, and jsPsych fit together to create an interactive web-based experiment:
+
+- **HTML** gives a page its content and structure.
+- **CSS** gives it its appearance.
+- **JavaScript** gives it behaviour and interactivity.
+- **jsPsych** is a JavaScript library purpose-built for presenting trials and collecting experimental data.
+
+In the next session, we will build on these foundations to create a more complete experiment with multiple trial types, randomisation, and data saving.
+
+::: {.callout-note}
+## Before next time
+Make sure your template folder, with all your edits from today, is saved and ready to bring to the next session.
+:::
