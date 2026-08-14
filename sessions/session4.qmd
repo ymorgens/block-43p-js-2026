@@ -1,7 +1,7 @@
 ---
-title: "Session 4: Building an Experiment From Scratch"
-subtitle: "Experimental Programming in the Cognitive Sciences"
-author: "Master's Programme in Brain and Cognition"
+title: "Session 4: Going Live"
+subtitle: "4.3 Programming Experiments"
+author: "Brain and Cognition, Erasmus University Rotterdam"
 date: last-modified
 format:
   html:

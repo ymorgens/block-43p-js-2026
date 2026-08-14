@@ -1,7 +1,7 @@
 ---
-title: "Session 1: Building Your First Online Experiment"
-subtitle: "Experimental Programming in the Cognitive Sciences"
-author: "Master's Programme in Brain and Cognition"
+title: "Session 1: Foundations"
+subtitle: "4.3 Programming Experiments"
+author: "Brain and Cognition, Erasmus University Rotterdam"
 date: last-modified
 format:
   html:

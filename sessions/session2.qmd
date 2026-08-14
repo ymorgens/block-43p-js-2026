@@ -1,7 +1,7 @@
 ---
-title: "Session 2: Making Experiments Interesting"
-subtitle: "Experimental Programming in the Cognitive Sciences"
-author: "Master's Programme in Brain and Cognition"
+title: "Session 2: Trial Design"
+subtitle: "4.3 Programming Experiments"
+author: "Brain and Cognition, Erasmus University Rotterdam"
 date: last-modified
 format:
   html:

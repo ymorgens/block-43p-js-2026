@@ -1,7 +1,7 @@
 ---
-title: "Session 3: Running a Real Study"
-subtitle: "Experimental Programming in the Cognitive Sciences"
-author: "Master's Programme in Brain and Cognition"
+title: "Session 3: Real Data"
+subtitle: "4.3 Programming Experiments"
+author: "Brain and Cognition, Erasmus University Rotterdam"
 date: last-modified
 format:
   html:
