@@ -16,10 +16,10 @@ By the end of the course, you will have built and hosted a complete, real experi
 
 | Session | Title | Topic |
 |------------------------|------------------------|------------------------|
-| 1 | Foundations | HTML, CSS, JavaScript basics, and your first jsPsych experiment |
-| 2 | Trial Design | Multiple trial types, randomization, feedback, practice and main blocks |
-| 3 | Real Data | Timeline variables, consent, participant data, saving and inspecting results |
-| 4 | Going Live | Building a complete experiment from a specification, and hosting it online |
+| 1 | [Foundations](sessions/session1.qmd) | HTML, CSS, JavaScript basics, and your first jsPsych experiment |
+| 2 | [Trial Design](sessions/session2.qmd) | Multiple trial types, randomization, feedback, practice and main blocks |
+| 3 | [Real Data](sessions/session3.qmd) | Timeline variables, consent, participant data, saving and inspecting results |
+| 4 | [Going Live](sessions/session4.qmd) | Building a complete experiment from a specification, and hosting it online |
 
 ## Learning Objectives
 
