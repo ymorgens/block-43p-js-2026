@@ -107,7 +107,7 @@ Once installed, you can right-click any `.html` file in the Explorer and choose 
 Every webpage you have ever visited, including the online experiments you will build in this course, is constructed from the same three core technologies:
 
 | Technology | Role | Analogy |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **HTML** (HyperText Markup Language) | Defines the *content* and *structure* of a page: text, images, buttons, containers. | The skeleton and organs of a body |
 | **CSS** (Cascading Style Sheets) | Defines the *appearance*: colours, fonts, spacing, layout. | The skin, clothing, and styling |
 | **JavaScript** | Defines the *behaviour*: what happens when someone clicks, types, or waits. It makes the page interactive. | The muscles and nervous system. What makes the body *move and react* |
@@ -176,7 +176,7 @@ Same idea as before: two `<script>` tags load the JavaScript (the core library, 
 
 ### A note on comments
 
-Open any file in the template and you'll notice lines that the computer seems to ignore.  These lines are grey or green text starting with `//`, `/* ... */`, or `<!-- ... -->`. These are **comments**: notes written for humans, not instructions for the computer. The browser skips over them completely.
+Open any file in the template and you'll notice lines that the computer seems to ignore. These lines are grey or green text starting with `//`, `/* ... */`, or `<!-- ... -->`. These are **comments**: notes written for humans, not instructions for the computer. The browser skips over them completely.
 
 Each language has its own comment syntax:
 
@@ -260,7 +260,7 @@ Here, `h1 { color: blue; }` means "make every `<h1>` element's text colour blue.
 A few more properties worth knowing, beyond the ones above:
 
 | Property | What it does |
-|------------------------------------|------------------------------------|
+|----|----|
 | `width` / `height` | Size of an element, e.g. `300px` |
 | `border` | A line around an element, e.g. `4px solid black` |
 | `border-radius` | Rounds the corners of an element, e.g. `12px` |
@@ -309,7 +309,7 @@ Before writing any JavaScript of our own, let's meet the tool we'll use to see w
 2.  Open the developer console: press `F12`, or right-click on the page → *Inspect* → click the **Console** tab.
 3.  Click into the console and type `2 + 2`, then press Enter.
 
-The console is a place where you can type JavaScript directly and see it run immediately.  The console is like a calculator, but far more powerful. Try a few more things directly in the console:
+The console is a place where you can type JavaScript directly and see it run immediately. The console is like a calculator, but far more powerful. Try a few more things directly in the console:
 
 ``` js
 2 + 2
@@ -320,7 +320,7 @@ x * 2
 
 Notice that once you define `x`, the console remembers it, so you can keep using `x` in later lines, just like a variable in a script.
 
-The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs. This is the single most useful debugging tool you will use in this course.  Whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
+The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs. This is the single most useful debugging tool you will use in this course. Whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
 
 ``` js
 console.log("This will appear in the console when the page loads");
@@ -421,8 +421,6 @@ Starting from the provided carousel template in `experiment.js`, modify the code
 3.  The carousel plays more slowly.
 4.  The background is changed to black.
 :::
-
-
 
 ------------------------------------------------------------------------
 
