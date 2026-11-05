@@ -25,19 +25,19 @@ By the end of the course, you will have built and hosted a complete, real experi
 
 By the end of this course, you will be able to:
 
-- **Operationalize an experiment** — turn a research question or classic paradigm into a concrete, working set of trials.
-- Present stimuli in different modalities: **text, images**, and (optionally) **audio and video**.
-- Control and reason about **trial timing** — fixation crosses, stimulus duration, and response windows.
+- **Operationalize an experiment**: turn a research question or classic paradigm into a concrete, working set of trials.
+- Present stimuli in different modalities such as **text,** and **images**
+- Control and reason about **trial timing**: fixation crosses, stimulus duration, and response windows.
 - Collect different types of response: **key presses, reaction times, and choices** (including button-based responses).
 - **Randomize** trial order and materials, and (optionally) **counterbalance** condition order across participants.
 - Implement **performance feedback**, and (optionally) simple **adaptive logic** that responds to how a participant is doing.
-- **Collect, save, and prepare data for analysis** — including opening it cleanly in Excel or SPSS.
+- **Collect, save, and prepare data for analysis**, including opening it cleanly in Excel or SPSS.
 
 ## Learning Activities
 
 ### Self-study
 
-Each session builds directly on the last — the same running example (and, from Session 4, your own chosen experiment) carries through the whole course. Working through each session's exercises yourself, in order, matters more than reading ahead.
+Each session builds directly on the last with the same running example (and, from Session 4, your own chosen experiment) carrying on through the whole course. Working through each session's exercises yourself, in order, matters more than reading ahead.
 
 ### In-session work
 
@@ -57,4 +57,4 @@ Session 4 involves hosting your experiment online. Please create free GitHub, OS
 
 ## Getting the Materials
 
-Each session's starter files, images, and library files are available as downloadable templates — see [Templates & Materials](materials.qmd).
+Each session's starter files, images, and library files are available as downloadable templates, see [Templates & Materials](materials.qmd).
