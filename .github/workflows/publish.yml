@@ -6,8 +6,6 @@ name: Render and Publish to GitHub Pages
 # installed at all.
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
