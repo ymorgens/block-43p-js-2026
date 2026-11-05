@@ -3,7 +3,7 @@ title: "Session 1: Foundations"
 subtitle: "4.3 Programming Experiments"
 author: "Brain and Cognition, Erasmus University Rotterdam"
 date: last-modified
-format:z
+format:
   html:
     toc: true
     toc-depth: 3
@@ -24,9 +24,12 @@ editor:
 
 ## Welcome
 
-In this course you will learn to build web-based experiments using **jsPsych**, one of the most widely used JavaScript libraries for online behavioural research. By the end of the four sessions, you will be able to design, program, and deploy your own experiment.
+In this course you will learn to build web-based experiments using **jsPsych**, one of the most widely used JavaScript libraries for online behavioural research.
+By the end of the four sessions, you will be able to design, program, and deploy your own experiment.
 
-This first session lays the foundation. You do **not** need any prior experience with web programming as we will build everything up from first principles. By the end of today, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
+This first session lays the foundation.
+You do **not** need any prior experience with web programming as we will build everything up from first principles.
+By the end of today, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
 
 ::: callout-note
 ## Learning objectives
@@ -107,17 +110,20 @@ Once installed, you can right-click any `.html` file in the Explorer and choose 
 Every webpage you have ever visited, including the online experiments you will build in this course, is constructed from the same three core technologies:
 
 | Technology | Role | Analogy |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | **HTML** (HyperText Markup Language) | Defines the *content* and *structure* of a page: text, images, buttons, containers. | The skeleton and organs of a body |
 | **CSS** (Cascading Style Sheets) | Defines the *appearance*: colours, fonts, spacing, layout. | The skin, clothing, and styling |
 | **JavaScript** | Defines the *behaviour*: what happens when someone clicks, types, or waits. It makes the page interactive. | The muscles and nervous system. What makes the body *move and react* |
 
-On top of these three, we use **jsPsych**, a JavaScript *library* specifically designed for building psychology experiments. A library is simply a collection of pre-written JavaScript code that saves us from writing everything from scratch. jsPsych already knows how to present trials, record reaction times, randomise trial order, and save data.
+On top of these three, we use **jsPsych**, a JavaScript *library* specifically designed for building psychology experiments.
+A library is simply a collection of pre-written JavaScript code that saves us from writing everything from scratch.
+jsPsych already knows how to present trials, record reaction times, randomise trial order, and save data.
 
 ::: callout-important
 ## Key idea
 
-jsPsych is *not* a different language. It is JavaScript code that other researchers have written for us, which we call (or "use") in our own JavaScript files.
+jsPsych is *not* a different language.
+It is JavaScript code that other researchers have written for us, which we call (or "use") in our own JavaScript files.
 :::
 
 ### Inspecting the project structure
@@ -143,21 +149,25 @@ jspsych-course/
 
 ### How the files connect
 
-`index.html` "links" to the other two files, telling the browser to load them alongside the page's content. Near the top or bottom of `index.html` you will see lines such as:
+`index.html` "links" to the other two files, telling the browser to load them alongside the page's content.
+Near the top or bottom of `index.html` you will see lines such as:
 
 ``` html
 <link rel="stylesheet" href="style.css">
 <script src="experiment.js"></script>
 ```
 
-The `<link>` tag pulls in the CSS file (appearance), and the `<script>` tag pulls in the JavaScript file (behaviour). This is the essential pattern behind almost every webpage: **one HTML file, linked to CSS and JavaScript files.**
+The `<link>` tag pulls in the CSS file (appearance), and the `<script>` tag pulls in the JavaScript file (behaviour).
+This is the essential pattern behind almost every webpage: **one HTML file, linked to CSS and JavaScript files.**
 
 ::: callout-tip
 ## Try it yourself
 
 Find these `<link>` and `<script>` lines in your `index.html` file.
 
-`index.html` doesn't link in jsPsych yet; we only need that in Part 4. But the same pattern is used to load it. Open `example_3.html` (you won't use it until later today) and see if you can spot the lines that link in the jsPsych library files.
+`index.html` doesn't link in jsPsych yet; we only need that in Part 4.
+But the same pattern is used to load it.
+Open `example_3.html` (you won't use it until later today) and see if you can spot the lines that link in the jsPsych library files.
 :::
 
 ::: {.callout-note collapse="true"}
@@ -176,7 +186,10 @@ Same idea as before: two `<script>` tags load the JavaScript (the core library, 
 
 ### A note on comments
 
-Open any file in the template and you'll notice lines that the computer seems to ignore. These lines are grey or green text starting with `//`, `/* ... */`, or `<!-- ... -->`. These are **comments**: notes written for humans, not instructions for the computer. The browser skips over them completely.
+Open any file in the template and you'll notice lines that the computer seems to ignore.
+These lines are grey or green text starting with `//`, `/* ... */`, or `<!-- ... -->`.
+These are **comments**: notes written for humans, not instructions for the computer.
+The browser skips over them completely.
 
 Each language has its own comment syntax:
 
@@ -195,12 +208,14 @@ Each language has its own comment syntax:
    multi-line JavaScript comment */
 ```
 
-Comments are one of the most useful habits you can build as a programmer: they let you (or a collaborator) understand *why* a piece of code exists, without having to reverse-engineer it. We've added comments throughout the template files to explain what each part does, so you can use them as a guide as you work through today's exercises.
+Comments are one of the most useful habits you can build as a programmer: they let you (or a collaborator) understand *why* a piece of code exists, without having to reverse-engineer it.
+We've added comments throughout the template files to explain what each part does, so you can use them as a guide as you work through today's exercises.
 
 ::: callout-tip
 ## Try it yourself
 
-Find one HTML comment, one CSS comment, and one JavaScript comment somewhere in the template files. Try adding a short comment of your own above one line of code, describing what that line does.
+Find one HTML comment, one CSS comment, and one JavaScript comment somewhere in the template files.
+Try adding a short comment of your own above one line of code, describing what that line does.
 :::
 
 ------------------------------------------------------------------------
@@ -211,7 +226,8 @@ Find one HTML comment, one CSS comment, and one JavaScript comment somewhere in 
 
 ### 2.1 HTML: structuring content
 
-HTML consists of **elements**, written as tags. Most tags come in pairs: an opening tag and a closing tag, wrapping around some content.
+HTML consists of **elements**, written as tags.
+Most tags come in pairs: an opening tag and a closing tag, wrapping around some content.
 
 ``` html
 <h1>This is a heading</h1>
@@ -228,14 +244,20 @@ HTML consists of **elements**, written as tags. Most tags come in pairs: an open
 
 Open `index.html` and locate the `<h1>`, `<p>`, and `<img>` elements.
 
-**Step 1.** Change the title text inside the `<h1>` tags. **Step 2.** Replace the paragraph text inside the `<p>` tags with a sentence of your own. **Step 3.** Find any image on the web (e.g. via an image search), download it, and save it into your `images/` folder. Then edit the `src` attribute of the `<img>` tag so it points to your new file. (You can download a file and put it in the images directory, or you can use one of the images that are already there). Remember the filename must match exactly, including the file extension (`.jpg`, `.png`, etc.).
+**Step 1.** Change the title text inside the `<h1>` tags.
+**Step 2.** Replace the paragraph text inside the `<p>` tags with a sentence of your own.
+**Step 3.** Find any image on the web (e.g. via an image search), download it, and save it into your `images/` folder.
+Then edit the `src` attribute of the `<img>` tag so it points to your new file.
+(You can download a file and put it in the images directory, or you can use one of the images that are already there).
+Remember the filename must match exactly, including the file extension (`.jpg`, `.png`, etc.).
 
 Save the file and check your Live Server preview as it should update automatically.
 :::
 
 ### 2.2 CSS: styling content
 
-CSS rules target HTML elements and specify how they should look. A CSS rule has three parts: a **selector** (what to style), a **property** (what aspect), and a **value** (how).
+CSS rules target HTML elements and specify how they should look.
+A CSS rule has three parts: a **selector** (what to style), a **property** (what aspect), and a **value** (how).
 
 ``` css
 h1 {
@@ -260,7 +282,7 @@ Here, `h1 { color: blue; }` means "make every `<h1>` element's text colour blue.
 A few more properties worth knowing, beyond the ones above:
 
 | Property | What it does |
-|----|----|
+|------------------------------------|------------------------------------|
 | `width` / `height` | Size of an element, e.g. `300px` |
 | `border` | A line around an element, e.g. `4px solid black` |
 | `border-radius` | Rounds the corners of an element, e.g. `12px` |
@@ -273,7 +295,11 @@ A few more properties worth knowing, beyond the ones above:
 
 Open `style.css` and make the following changes:
 
-**Step 4.** Change the background colour (edit the `background-color` property on `body`). **Step 5.** Change the heading colour (edit the `color` property on `h1`). **Step 6.** Centre all text on the page (hint: `text-align: center;`). **Step 7.** Double the width **and** height of the image (hint: look at the current `width` and `height` values on `img` and multiply them by two). **Step 8.** Give the image a border and rounded corners using `border` and `border-radius`.
+**Step 4.** Change the background colour (edit the `background-color` property on `body`).
+**Step 5.** Change the heading colour (edit the `color` property on `h1`).
+**Step 6.** Centre all text on the page (hint: `text-align: center;`).
+**Step 7.** Double the width **and** height of the image (hint: look at the current `width` and `height` values on `img` and multiply them by two).
+**Step 8.** Give the image a border and rounded corners using `border` and `border-radius`.
 
 Save and check the preview after each change.
 :::
@@ -309,7 +335,9 @@ Before writing any JavaScript of our own, let's meet the tool we'll use to see w
 2.  Open the developer console: press `F12`, or right-click on the page → *Inspect* → click the **Console** tab.
 3.  Click into the console and type `2 + 2`, then press Enter.
 
-The console is a place where you can type JavaScript directly and see it run immediately. The console is like a calculator, but far more powerful. Try a few more things directly in the console:
+The console is a place where you can type JavaScript directly and see it run immediately.
+The console is like a calculator, but far more powerful.
+Try a few more things directly in the console:
 
 ``` js
 2 + 2
@@ -320,7 +348,9 @@ x * 2
 
 Notice that once you define `x`, the console remembers it, so you can keep using `x` in later lines, just like a variable in a script.
 
-The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs. This is the single most useful debugging tool you will use in this course. Whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
+The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs.
+This is the single most useful debugging tool you will use in this course.
+Whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
 
 ``` js
 console.log("This will appear in the console when the page loads");
@@ -406,7 +436,8 @@ So the loop reads as: "starting at 0, keep going as long as `i` is smaller than 
 ::: callout-note
 ## Why the console?
 
-The console is where JavaScript "talks back" to you. It's an essential debugging tool: whenever something isn't working, checking the console for errors or printed values is the first thing to do.
+The console is where JavaScript "talks back" to you.
+It's an essential debugging tool: whenever something isn't working, checking the console for errors or printed values is the first thing to do.
 :::
 
 ### Exercise 2 — Image Carousel
@@ -430,7 +461,9 @@ Starting from the provided carousel template in `experiment.js`, modify the code
 
 ### 4.1 What is jsPsych?
 
-jsPsych organises an experiment as a **timeline**: an ordered list of **trials**. Each trial specifies what to show the participant and how to record their response. jsPsych takes care of presenting each trial in order, timing everything precisely, and collecting the resulting data.
+jsPsych organises an experiment as a **timeline**: an ordered list of **trials**.
+Each trial specifies what to show the participant and how to record their response.
+jsPsych takes care of presenting each trial in order, timing everything precisely, and collecting the resulting data.
 
 ### 4.2 Anatomy of a minimal jsPsych experiment
 
@@ -461,7 +494,8 @@ jsPsych.run(timeline);
 ::: callout-tip
 ## Try it yourself
 
-Open `example_3.html` in Live Server and locate, in the code, each of the four components above: `initJsPsych()`, the trial, the timeline, and `jsPsych.run(timeline)`. Change the text inside `stimulus` and confirm the change appears in the browser.
+Open `example_3.html` in Live Server and locate, in the code, each of the four components above: `initJsPsych()`, the trial, the timeline, and `jsPsych.run(timeline)`.
+Change the text inside `stimulus` and confirm the change appears in the browser.
 :::
 
 ### Where to go for more
@@ -475,7 +509,8 @@ jsPsych's own documentation is thorough and example-driven — it's worth gettin
 ::: callout-tip
 ## Try it yourself
 
-Open the `html-keyboard-response` plugin page above and find the `choices` parameter in its parameter table. See what values it says are accepted — you'll need this for Exercise 3, below.
+Open the `html-keyboard-response` plugin page above and find the `choices` parameter in its parameter table.
+See what values it says are accepted — you'll need this for Exercise 3, below.
 :::
 
 ### Exercise 3
