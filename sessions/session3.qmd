@@ -8,7 +8,7 @@ format:
     toc: true
     toc-depth: 3
     toc-location: right
-    number-sections: true
+    number-sections: false
     code-fold: false
     code-copy: true
     theme: cosmo
