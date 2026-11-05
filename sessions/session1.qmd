@@ -320,7 +320,7 @@ x * 2
 
 Notice that once you define `x`, the console remembers it, so you can keep using `x` in later lines, just like a variable in a script.
 
-The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs. This is the single most useful debugging tool you will use in this course — whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
+The function **`console.log(...)`** does something similar, but from *inside* a script: it prints a value to the console so you can inspect it while your code runs. This is the single most useful debugging tool you will use in this course.  Whenever something isn't behaving as expected, add a `console.log()` near it to see what's actually happening.
 
 ``` js
 console.log("This will appear in the console when the page loads");
@@ -377,7 +377,7 @@ if (participant.condition === 'A') {
 
 ### 3.5 For loops
 
-A **for loop** repeats a block of code multiple times — very useful for going through a list of stimuli one by one.
+A **for loop** repeats a block of code multiple times, which is very useful for going through a list of stimuli one by one.
 
 ``` js
 for (let i = 0; i < stimuli.length; i++) {
@@ -419,46 +419,10 @@ Starting from the provided carousel template in `experiment.js`, modify the code
 1.  Another image is added to the carousel.
 2.  The order of the images is changed.
 3.  The carousel plays more slowly.
-4.  Captions are added underneath each image.
-5.  The background is changed to black.
+4.  The background is changed to black.
 :::
 
-::: callout-note
-## Extra scaffolding for step 4 (captions)
 
-Step 4 needs two new pieces of JavaScript vocabulary, plus one HTML edit:
-
-- **`document.querySelector("#caption")`** — this finds the HTML element with `id="caption"` on the page, so your JavaScript can control it. `document` refers to the whole webpage; `.querySelector(...)` searches it for an element matching whatever you give it; the `#` means "look for an `id`".
-- **`.textContent`** — once you have an element (like the one above), `.textContent` lets you read or change the text inside it, e.g. `myElement.textContent = "New text"`.
-
-To make this work:
-
-1.  In `index.html`, add a new paragraph just below the `<img>` tag, with an `id` so JavaScript can find it:
-
-``` html
-<img src="images/face1.jpg" alt="Placeholder face stimulus">
-<p id="caption"></p>
-```
-
-2.  In `experiment.js`, near the top of the carousel code (next to `let carouselImage = ...`), select the new paragraph the same way:
-
-``` js
-let captionText = document.querySelector("#caption");
-```
-
-3.  Inside `showNextImage()`, alongside the line that updates `carouselImage.src`, update the caption too:
-
-``` js
-captionText.textContent = carouselImages[currentIndex];
-```
-
-**What each line is actually doing** (connecting back to what you've already learned):
-
-- `document.querySelector("#caption")` — the `#` here works just like it did in `style.css` (Part 2.2): a `#id` selector picks out one specific element. The difference is that here we're selecting it in JavaScript, not CSS, so we can *read or change* it while the page is running, rather than just style it.
-- `let captionText = ...` — this is an ordinary variable (Part 3.1), except instead of storing a number or a word, it stores a reference to an HTML element.
-- `captionText.textContent = ...` — the `.something` here is the same dot notation you saw with objects in Part 3.3 (`participant.condition`). `textContent` is simply a property of the element that holds its visible text, and you can set it just like you'd set any other variable.
-- `carouselImages[currentIndex]` — this is array indexing from Part 3.2 (`stimuli[0]`), just using a variable (`currentIndex`) instead of a fixed number, so it always points at whichever image is currently showing.
-:::
 
 ------------------------------------------------------------------------
 
