@@ -18,13 +18,13 @@ website:
         href: index.qmd
       - section: "Sessions"
         contents:
-          - text: "Session 1: Building Your First Experiment"
+          - text: "Session 1: Foundations"
             href: sessions/session1.qmd
-          - text: "Session 2: Making Experiments Interesting"
+          - text: "Session 2: Trial Design"
             href: sessions/session2.qmd
-          - text: "Session 3: Running a Real Study"
+          - text: "Session 3: Read Data"
             href: sessions/session3.qmd
-          - text: "Session 4: Building From Scratch"
+          - text: "Session 4: Going Live"
             href: sessions/session4.qmd
       - text: "Templates & Materials"
         href: materials.qmd
