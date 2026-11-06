@@ -22,6 +22,10 @@ editor:
     wrap: sentence
 ---
 
+<!-- Visibility is controlled by the "session1" switch in _quarto.yml (true = show, false = "coming soon"). -->
+
+::::::: {.content-visible when-meta="session1"}
+
 ## Welcome
 
 In this course you will learn to build web-based experiments using **jsPsych**, one of the most widely used JavaScript libraries for online behavioural research.
@@ -42,8 +46,6 @@ By the end of this session you will be able to:
 - Write and run simple JavaScript code.
 - Run and modify a simple jsPsych experiment.
 :::
-
-
 
 ------------------------------------------------------------------------
 
@@ -90,7 +92,6 @@ Once installed, you can right-click any `.html` file in the Explorer and choose 
 ------------------------------------------------------------------------
 
 ## Part 1 — Understanding the Project Structure {#sec-part1}
-
 
 ### The building blocks of a webpage
 
@@ -209,7 +210,6 @@ Try adding a short comment of your own above one line of code, describing what t
 
 ## Part 2 — HTML and CSS {#sec-part2}
 
-
 ### 2.1 HTML: structuring content
 
 HTML consists of **elements**, written as tags.
@@ -308,7 +308,6 @@ Take a screenshot of your result once you are happy with it.
 ------------------------------------------------------------------------
 
 ## Part 3 — JavaScript Basics {#sec-part3}
-
 
 JavaScript is what makes a webpage interactive: it can respond to clicks and key presses, do calculations, store information, and change what is shown on the page.
 
@@ -441,7 +440,6 @@ Starting from the provided carousel template in `experiment.js`, modify the code
 ------------------------------------------------------------------------
 
 ## Part 4 — Your First jsPsych Experiment {#sec-part4}
-
 
 ### 4.1 What is jsPsych?
 
@@ -590,7 +588,7 @@ If you finish early, extend your experiment so it runs this sequence, in order:
 
 Add all three trials to your `timeline` array, in this order.
 
-A fully worked version of this exact sequence is provided in **`challenge_example.html`** in your project folder — try building it yourself first, but if you get stuck (or want to compare your solution afterwards), open that file for reference.
+A worked version of this sequence will be posted on the [Templates & Materials](../materials.qmd) page the day after the session, so you can compare it with your own.
 :::
 
 ------------------------------------------------------------------------
@@ -611,3 +609,13 @@ In the next session, we will build on these foundations to create a more complet
 
 Make sure your template folder, with all your edits from today, is saved and ready to bring to the next session.
 :::
+
+:::::::
+
+::::::: {.content-hidden when-meta="session1"}
+
+## Coming Soon...
+
+This session will be available soon.
+
+:::::::

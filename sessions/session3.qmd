@@ -19,6 +19,10 @@ execute:
   echo: true
 ---
 
+<!-- Visibility is controlled by the "session3" switch in _quarto.yml (true = show, false = "coming soon"). -->
+
+::::::: {.content-visible when-meta="session3"}
+
 ## Welcome back
 
 Over the last two sessions you built a small shape-categorization task: participants see a circle or square and press **F** or **J**, with a practice block, feedback, and a repeated main block. Today, that same experiment becomes something you could actually run as a real pilot study — with a cleaner way of repeating trials, faster-loading images, a participant ID, saved data, and a debrief screen showing the participant their own performance.
@@ -769,3 +773,12 @@ These are all free, standard account-creation flows, but institutional email ver
 :::
 :::
 
+:::::::
+
+::::::: {.content-hidden when-meta="session3"}
+
+## Coming Soon...
+
+This session will be available soon.
+
+:::::::

@@ -9,10 +9,33 @@ Each session has a self-contained starter template: jsPsych library files, image
 
 ## Session templates
 
+::: {.content-visible when-meta="session1"}
 - [Session 1 template](downloads/jspsych-course-session1-template.zip) — HTML/CSS/JS basics, first jsPsych experiment
+:::
+::: {.content-hidden when-meta="session1"}
+- Session 1 template — *coming soon*
+:::
+
+::: {.content-visible when-meta="session2"}
 - [Session 2 template](downloads/jspsych-course-session2-template.zip) — trial types, randomization, feedback, blocks
+:::
+::: {.content-hidden when-meta="session2"}
+- Session 2 template — *coming soon*
+:::
+
+::: {.content-visible when-meta="session3"}
 - [Session 3 template](downloads/jspsych-course-session3-template.zip) — timeline variables, consent, saving data
+:::
+::: {.content-hidden when-meta="session3"}
+- Session 3 template — *coming soon*
+:::
+
+::: {.content-visible when-meta="session4"}
 - [Session 4 template](downloads/jspsych-course-session4-template.zip) — minimal starter shell + syntax cheat sheet for the independent build
+:::
+::: {.content-hidden when-meta="session4"}
+- Session 4 template — *coming soon*
+:::
 
 ## Using a template
 

@@ -19,6 +19,10 @@ execute:
   echo: true
 ---
 
+<!-- Visibility is controlled by the "session2" switch in _quarto.yml (true = show, false = "coming soon"). -->
+
+::::::: {.content-visible when-meta="session2"}
+
 ## Welcome back
 
 Last week you learned the basic building blocks: HTML, CSS, JavaScript, and how a minimal jsPsych experiment is put together (`initJsPsych()`, a trial, a timeline, `jsPsych.run()`). Today, everything you build uses those exact same pieces — nothing from Session 1 is being replaced, only extended.
@@ -575,3 +579,13 @@ In Session 3, we'll turn this into something that could actually collect real da
 ## Before next time
 Make sure `experiment.html` (or your version of `checkpoint_4_blocks.html`) is saved and ready to bring to Session 3 — you'll be extending this same file.
 :::
+
+:::::::
+
+::::::: {.content-hidden when-meta="session2"}
+
+## Coming Soon...
+
+This session will be available soon.
+
+:::::::

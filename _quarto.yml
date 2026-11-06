@@ -2,8 +2,16 @@ project:
   type: website
   output-dir: _site
 
-# --- Solutions switches: set a session to true to publish its solutions link
-# on the Templates & Materials page (see materials.qmd). ---
+# --- Visibility switches (true = show, false = hide) ---------------------
+# session1..4   : show the session page and its template download.
+#                 When false, the page says "Coming Soon..." and the
+#                 template link on Templates & Materials is hidden.
+# solutions1..4 : show the solutions download on Templates & Materials.
+# After changing a value: commit, push and run the workflow.
+session1: true
+session2: true
+session3: false
+session4: false
 solutions1: true
 solutions2: false
 solutions3: false

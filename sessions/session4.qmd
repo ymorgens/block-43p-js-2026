@@ -19,6 +19,10 @@ execute:
   echo: true
 ---
 
+<!-- Visibility is controlled by the "session4" switch in _quarto.yml (true = show, false = "coming soon"). -->
+
+::::::: {.content-visible when-meta="session4"}
+
 ## Welcome back — the capstone session
 
 The last three sessions each introduced new techniques, one at a time, and asked you to apply them to the same running shape-categorization experiment. Today is different: **no new techniques**. Instead, you'll choose a classic cognitive psychology task, and build it yourself — from a specification, not step-by-step instructions — using only what you already know.
@@ -332,3 +336,13 @@ Over four sessions, you went from "what is an `<h1>` tag" to a complete, indepen
 - Took an experiment from your own laptop to a real, publicly accessible URL, with data flowing to a real OSF project.
 
 Whatever you build today is yours to keep, adapt, and extend — for a real pilot study, a class project, or simply as a working example the next time you need to build something similar in jsPsych.
+
+:::::::
+
+::::::: {.content-hidden when-meta="session4"}
+
+## Coming Soon...
+
+This session will be available soon.
+
+:::::::
