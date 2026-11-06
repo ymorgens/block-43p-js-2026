@@ -498,6 +498,60 @@ Open `example_3.html` in Live Server and locate, in the code, each of the four c
 Change the text inside `stimulus` and confirm the change appears in the browser.
 :::
 
+### Adding more trials to the timeline
+
+The timeline is just an array (Part 3.2), so adding a trial takes two steps:
+
+1.  **Define the trial** as its own object, with its **own name**, *above* the `timeline` line.
+2.  **Add that name to the timeline array**, inside the square brackets and separated by commas.
+    Trials run in the order they are listed.
+
+Here is the idea with generic names.
+With one trial, the timeline looks like this:
+
+``` js
+const trial_1 = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: '<p>Text of the first trial</p>'
+};
+
+const timeline = [trial_1];
+```
+
+To add a second trial, define it (with a new name) and then add its name to the array after a comma:
+
+``` js
+const trial_1 = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: '<p>Text of the first trial</p>'
+};
+
+const trial_2 = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: '<p>Text of the second trial</p>'
+};
+
+const timeline = [trial_1, trial_2];
+```
+
+A third trial works the same way: `const timeline = [trial_1, trial_2, trial_3];`.
+
+::: callout-note
+## Common mistakes
+
+- **Giving two trials the same name.** Each trial needs its own name (`trial_1`, `trial_2`, ...). If you reuse one, the console shows an error like `Identifier 'trial' has already been declared`.
+- **Defining a trial but forgetting to add it to `timeline`.** There is no error message, the trial just never appears.
+- **Forgetting the comma** between two items in the timeline array.
+- **Defining a trial *below* the `const timeline = ...` line.** JavaScript reads the file from top to bottom, so a trial must exist before the timeline uses it.
+:::
+
+::: callout-tip
+## Try it yourself
+
+Swap the order of the two names inside the `timeline` brackets, save, and reload.
+What changes on screen?
+:::
+
 ### Where to go for more
 
 jsPsych's own documentation is thorough and example-driven — it's worth getting comfortable navigating it now, since you'll rely on it for the rest of the course:
@@ -518,7 +572,7 @@ See what values it says are accepted — you'll need this for Exercise 3, below.
 ::: callout-warning
 ## Exercise 3
 
-1.  Modify the first trial so that it only ends when the participant presses the spacebar.
+1.  Right now the first trial ends with any key press.  Modify the first trial so that it only ends when the participant presses the spacebar.
     - *Hint:* add a `choices` parameter to the trial, and set it to only allow the spacebar.
 2.  Add a second `jsPsychHtmlKeyboardResponse` trial that displays the text: *"The experiment is finished."*
 3.  Configure this second trial so that pressing any key has no effect (the trial should not end when a key is pressed).
