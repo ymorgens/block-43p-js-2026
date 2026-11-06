@@ -8,7 +8,9 @@ format:
     toc: true
 ---
 
-This manual contains the instructions and course material for the last 4 sessions in **4.3 Programming Experiments**. These final four-session will be a hands-on introduction to building online behavioural experiments with [jsPsych](https://www.jspsych.org).
+This manual contains the instructions and course material for the 4 of the 8 sessions in **4.3 Programming Experiments**. These four-sessions will be a hands-on introduction to building online behavioural experiments with [jsPsych](https://www.jspsych.org), complementing the sessions on programming experiments with E-Prime.
+
+JsPsych is open-source software, which means you can follow this tutorial and complete the exercises on your own computer. You can also work on the lab computers.
 
 By the end of the course, you will have built and hosted a complete, real experiment of your own choosing, from a blank file to a public URL that collects real data.
 
@@ -49,11 +51,6 @@ Each session is a hands-on, roughly 3-hour block combining short explanations wi
 You'll need [VS Code](https://code.visualstudio.com/) installed, with the **Live Server** extension. See Session 1's "Before the Practical" section for full setup instructions.
 :::
 
-::: callout-note
-## Before Session 4
-
-Session 4 involves hosting your experiment online. Please create free GitHub, OSF, and DataPipe accounts **before** Session 3 ends — see the homework note at the end of Session 3 for step-by-step instructions. Doing this in advance saves significant time during Session 4 itself.
-:::
 
 ## Getting the Materials
 
