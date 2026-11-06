@@ -35,22 +35,6 @@ By the end of this session you will be able to:
 - Host a finished experiment on GitHub Pages and send its data to the Open Science Framework, so it could genuinely be run by remote participants.
 :::
 
-::: {.callout-note}
-## Session timing at a glance
-
-| Part | Time |
-|---|---|
-| Recap of Sessions 1–3 | 10 min |
-| The specification | 10 min |
-| Choosing a task | 10 min |
-| Independent build time | 100 min |
-| Going live | 30 min |
-| Wrap-up: run each other's experiments | 20 min |
-| **Total** | **180 min** |
-
-Today's time is deliberately front-loaded toward independent building — expect to spend most of the session writing code on your own or in pairs, with the instructor circulating rather than lecturing.
-:::
-
 ---
 
 ## Recap: everything you already know
@@ -214,8 +198,6 @@ Participants see a sequence of items and respond whenever the current item match
 
 ## Independent Build Time
 
-*(≈ 100 minutes)*
-
 Work through the specification for your chosen task. A few suggestions:
 
 ::: {.callout-tip}
@@ -234,14 +216,12 @@ Check `cheatsheet.md` for the relevant syntax pattern first. If the *logic* (not
 
 ::: {.callout-note}
 ## Worked solutions
-Your instructor has a complete worked solution for every task on the menu (Stroop, Flanker, lexical decision, visual search, and even the N-back stretch goal), and will share them after this session — a good way to compare approaches once you've built your own.
+A complete worked solution for every task on the menu (Stroop, Flanker, lexical decision, visual search, and even the N-back stretch goal) will be posted on the [Templates & Materials](../materials.qmd) page the day after the session — a good way to compare approaches once you've built your own.
 :::
 
 ---
 
 ## Going Live
-
-*(≈ 30 minutes)*
 
 A finished experiment sitting on your own laptop isn't yet something a participant elsewhere could run. Two pieces make that possible.
 
@@ -338,8 +318,6 @@ This is a reasonable, real-world fallback — plenty of published studies have u
 ---
 
 ## Wrap-up: Run Each Other's Experiments
-
-*(≈ 20 minutes)*
 
 Once your experiment is live, share your GitHub Pages link with a classmate and actually run their experiment as a real participant — press keys, make mistakes, read your own debrief screen. This is both a satisfying end to four sessions of building, and a genuine test that hosting and data saving actually worked, from someone else's computer rather than your own.
 

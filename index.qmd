@@ -43,7 +43,7 @@ Each session builds directly on the last with the same running example (and, fro
 
 ### In-session work
 
-Each session is a hands-on, roughly 3-hour block combining short explanations with guided "try it yourself" exercises, working directly in your own project files. Reference solutions ("checkpoint" files) are provided throughout, so you can check your own work or catch up if you fall behind.
+Each session is a hands-on block combining short explanations with guided "try it yourself" exercises, working directly in your own project files. Reference solutions ("checkpoint" files) are provided throughout, so you can check your own work or catch up if you fall behind.
 
 ::: callout-note
 ## Before Session 1

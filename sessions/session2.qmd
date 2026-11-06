@@ -36,21 +36,6 @@ By the end of this session you will be able to:
 - Structure an experiment into a practice block and a main block, with the main block repeated multiple times.
 :::
 
-::: {.callout-note}
-## Session timing at a glance
-
-| Part | Time |
-|---|---|
-| Recap of Session 1 | 10 min |
-| Part 1 — Multiple trial types & images | 30 min |
-| Part 2 — Randomization | 30 min |
-| Part 3 — Conditional feedback | 40 min |
-| Part 4 — Practice block & repeating blocks | 50 min |
-| **Total hands-on time** | **160 min** |
-
-This leaves a smaller buffer than Session 1 for a 3-hour session, since Part 3 in particular introduces a genuinely new idea (functions as parameters) rather than just new vocabulary — expect that part to take the most careful pacing.
-:::
-
 ---
 
 ## Recap: what carries over from Session 1
@@ -102,8 +87,6 @@ Run `experiment.html` with Live Server. Press any key at the instructions screen
 ---
 
 ## Part 1 — Multiple Trial Types & Images {#sec-part1}
-
-*(≈ 30 minutes)*
 
 ### 1.1 A new plugin: `image-keyboard-response`
 
@@ -193,8 +176,6 @@ Compare your result to `checkpoint_1_trial_types.html` when you're done.
 ---
 
 ## Part 2 — Randomization {#sec-part2}
-
-*(≈ 30 minutes)*
 
 ### 2.1 Why randomize?
 
@@ -294,8 +275,6 @@ Compare your result to `checkpoint_2_randomization.html` when you're done.
 
 ## Part 3 — Conditional Feedback {#sec-part3}
 
-*(≈ 40 minutes)*
-
 This part introduces the trickiest new idea of the day: **a trial parameter can be a function, not just a fixed value.** Take it slowly, and don't worry if it takes a couple of read-throughs to sink in.
 
 ### 3.1 Scoring a response: `on_finish`
@@ -378,8 +357,6 @@ Compare your result to `checkpoint_3_feedback.html` when you're done (note the c
 ---
 
 ## Part 4 — Practice Block & Repeating Blocks {#sec-part4}
-
-*(≈ 50 minutes)*
 
 ### 4.1 Two separate arrays: practice and main
 

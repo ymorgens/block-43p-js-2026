@@ -2,6 +2,13 @@ project:
   type: website
   output-dir: _site
 
+# --- Solutions switches: set a session to true to publish its solutions link
+# on the Templates & Materials page (see materials.qmd). ---
+solutions1: true
+solutions2: false
+solutions3: false
+solutions4: false
+
 website:
   title: "Experimental Programming in the Cognitive Sciences"
   description: "Master's Programme in Brain and Cognition — jsPsych course"
@@ -18,13 +25,13 @@ website:
         href: index.qmd
       - section: "Sessions"
         contents:
-          - text: "Session 1: Foundations"
+          - text: "1. Foundations"
             href: sessions/session1.qmd
-          - text: "Session 2: Trial Design"
+          - text: "2. Trial Design"
             href: sessions/session2.qmd
-          - text: "Session 3: Read Data"
+          - text: "3. Real Data"
             href: sessions/session3.qmd
-          - text: "Session 4: Going Live"
+          - text: "4. Going Live"
             href: sessions/session4.qmd
       - text: "Templates & Materials"
         href: materials.qmd

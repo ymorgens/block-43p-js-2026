@@ -1,0 +1,25 @@
+---
+title: "Session Coming Soon"
+subtitle: "4.3 Programming Experiments"
+author: "Brain and Cognition, Erasmus University Rotterdam"
+date: last-modified
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    code-fold: false
+    code-copy: true
+    theme: cosmo
+    highlight-style: github
+    smooth-scroll: true
+execute:
+  eval: false
+  echo: true
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## Coming Soon...
