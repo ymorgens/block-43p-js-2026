@@ -574,12 +574,12 @@ choices: "NO_KEYS"    // no key can end the trial
 Try adding one of these to each trial and see what happens.
 :::
 
-### Challenge (optional)
+### Challenge 
 
 ::: callout-important
 ## Challenge
 
-If you finish early, extend your experiment so it runs this sequence, in order:
+Extend your experiment so it runs this sequence, in order:
 
 1.  **A welcome screen** — a `jsPsychHtmlKeyboardResponse` trial with a stimulus like `"Welcome! Press any key to begin."` (you already have something like this from Exercise 3).
 2.  **A fixation cross** — a trial that shows `+` for a fixed amount of time and does **not** wait for a key press.
