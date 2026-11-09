@@ -55,21 +55,21 @@ Worked solutions are posted the day after each session, so you have a genuine ch
 -->
 
 ::: {.content-visible when-meta="solutions1"}
-- [Session 1 solutions](downloads/jspsych-course-session1-solutions.zip) — Exercises 1–3 and the optional challenge
+- [Session 1 solutions](downloads/jspsych-course-session1-solutions.zip) — Exercises 1–3 and the challenge
 :::
 ::: {.content-hidden when-meta="solutions1"}
 - Session 1 solutions — *posted the day after Session 1*
 :::
 
 ::: {.content-visible when-meta="solutions2"}
-- [Session 2 solutions](downloads/jspsych-course-session2-solutions.zip) — reference solutions for Exercises 1–4 (the `checkpoint` files) and the optional challenge
+- [Session 2 solutions](downloads/jspsych-course-session2-solutions.zip) — reference solutions for Exercises 1–4 (the `checkpoint` files) and the challenge
 :::
 ::: {.content-hidden when-meta="solutions2"}
 - Session 2 solutions — *posted the day after Session 2*
 :::
 
 ::: {.content-visible when-meta="solutions3"}
-- [Session 3 solutions](downloads/jspsych-course-session3-solutions.zip) — optional challenges A and B
+- [Session 3 solutions](downloads/jspsych-course-session3-solutions.zip) — challenges A and B
 :::
 ::: {.content-hidden when-meta="solutions3"}
 - Session 3 solutions — *posted the day after Session 3*
