@@ -25,9 +25,9 @@ execute:
 
 ## Welcome back
 
-Last week you learned the basic building blocks: HTML, CSS, JavaScript, and how a minimal jsPsych experiment is put together (`initJsPsych()`, a trial, a timeline, `jsPsych.run()`). Today, everything you build uses those exact same pieces — nothing from Session 1 is being replaced, only extended.
+Last week you learned the basic building blocks: HTML, CSS, JavaScript, and how a minimal jsPsych experiment is put together (`initJsPsych()`, a trial, a timeline, `jsPsych.run()`). Today, everything you build uses those exact same pieces, so nothing from Session 1 is being replaced, only extended.
 
-Today you will build **one experiment across the whole session**: a simple shape-categorization task, where participants see a shape and press **F** for circle or **J** for square. Each part of the session adds one new capability to this same experiment, so that by the end you have something that looks a lot like a real (if small) study — with practice, feedback, randomization, and repeated blocks of trials.
+Today you will build **one experiment across the whole session**: a simple shape-categorization task, where participants see a shape and press **F** for circle or **J** for square. Each part of the session adds one new capability to this same experiment, so that by the end you have something that looks a lot like a real (if small) study which will include practice, feedback, randomization, and repeated blocks of trials.
 
 ::: {.callout-note}
 ## Learning objectives
@@ -44,14 +44,38 @@ By the end of this session you will be able to:
 
 ## Recap: what carries over from Session 1
 
-Before starting, make sure these four ideas from Session 1 feel solid, since today builds directly on top of them:
+Before starting, make sure these ideas from Session 1 feel solid, since today builds directly on top of them:
 
 | From Session 1 | How it's used today |
 |---|---|
 | **Arrays** (Part 3.2) | We'll store our stimuli as an array, then shuffle and loop over it |
 | **`for` loops** (Part 3.5) | We'll use a `for` loop to turn an array of stimuli into an array of trials |
 | **Objects & dot notation** (Part 3.3) | Each stimulus will be an object like `{image: ..., category: ...}` |
-| **Trial / timeline / `jsPsych.run()`** (Part 4) | Exactly the same pattern — we're just building bigger timelines |
+| **Trial / timeline / `jsPsych.run()`** (Part 4) | Exactly the same pattern as last session, we're just building bigger timelines |
+| **Commas** between items (Parts 3.2 and 3.3) | Every object in `stimulus_list` needs a comma after it, except the last one |
+
+::: {.callout-note}
+## Debugging reminders from Session 1
+Things will go wrong today, and that is normal. These habits from Session 1 help you find out why:
+
+- **Keep the console open** (`F12`, or right-click → *Inspect* → *Console*) while you work. Errors show up in red and tell you the file and line number where JavaScript got stuck.
+- **Use `console.log()`** to look inside your code. For example, `console.log(this_stimulus)` inside a loop prints the current stimulus every time round the loop.
+- **Learn to recognise common errors**:
+  - `X is not defined`: a typo in a name, a missing plugin `<script>` tag, or something defined *below* the line that uses it.
+  - `Identifier 'trial' has already been declared`: two `let` or `const` lines use the same name.
+  - `Unexpected token`, `Unexpected string` or `missing )`: usually a missing comma, bracket or quote.
+- **Capitalisation matters**: `jsPsychImageKeyboardResponse` is not the same as `jsPsychImagekeyboardresponse`.
+- **Save the file** before you expect to see a change in the browser.
+- **To see all the data jsPsych collected**, replace `const jsPsych = initJsPsych();` with the version below. When the experiment ends, the data is displayed on screen. (You will use this `on_finish` option to save data in Session 3.)
+
+```js
+const jsPsych = initJsPsych({
+  on_finish: function () {
+    jsPsych.data.displayData();   // shows all collected data on screen at the end
+  }
+});
+```
+:::
 
 ::: {.callout-tip}
 ## Try it yourself
@@ -64,28 +88,29 @@ Open the new template folder for today in VS Code (same process as Session 1: un
 
 ```
 session2-template/
-├── experiment.html               <- you will build this up across the whole session
-├── checkpoint_1_trial_types.html  <- reference: end of Part 1
-├── checkpoint_2_randomization.html <- reference: end of Part 2
-├── checkpoint_3_feedback.html     <- reference: end of Part 3
-├── checkpoint_4_blocks.html       <- reference: end of Part 4 (full experiment)
-├── images/                       <- circle and square stimuli
-└── jspsych/                      <- jsPsych library files (do not edit)
+├── experiment.html            <- you will build this up across the whole session
+├── images/                    <- circle and square stimuli
+├── jspsych/                   <- jsPsych library files (do not edit)
+├── audio_video_demo.html      <- demo for the optional "Bonus: Audio & Video" section
+├── button_response_demo.html  <- demo for the optional "Bonus: Button Responses" section
+└── media/                     <- sound and video files used by audio_video_demo.html
 ```
 
+The last three items are only needed for the two optional bonus sections at the end of this guide, so you can ignore them for now.
+
 ::: {.callout-important}
-## How to use the checkpoint files
-The `checkpoint_*.html` files show one way of finishing each part. Try building each part yourself in `experiment.html` first — only open a checkpoint file if you get stuck, or afterwards to compare your approach.
+## Solutions
+Try building each part yourself in `experiment.html`, and write down any questions to bring to the practical. Reference solutions for each exercise (the `checkpoint_*.html` files, plus the optional challenge) are posted on the [Templates & Materials](../materials.qmd) page the day after the practical, so you can compare your approach afterwards.
 :::
 
 Open `experiment.html` now and take a look. It already contains:
 
 - One `jsPsychHtmlKeyboardResponse` instructions trial (same plugin as Session 1).
-- One `jsPsychImageKeyboardResponse` trial — a **new** plugin for today, which displays an image instead of HTML text, and otherwise works exactly like `jsPsychHtmlKeyboardResponse`.
+- One `jsPsychImageKeyboardResponse` trial, a **new** plugin for today, which displays an image instead of HTML text, and otherwise works exactly like `jsPsychHtmlKeyboardResponse`.
 
 ::: {.callout-tip}
 ## Try it yourself
-Run `experiment.html` with Live Server. Press any key at the instructions screen, then press F or J at the shape. Notice that the trial ends as soon as you press a valid key — same behaviour as `html-keyboard-response` in Session 1.
+Run `experiment.html` with Live Server. Press any key at the instructions screen, then press F or J at the shape. Notice that the trial ends as soon as you press a valid key, which is the same behaviour as `html-keyboard-response` in Session 1.
 :::
 
 ---
@@ -121,11 +146,11 @@ const trial = {
 };
 ```
 
-The `type` is different — `jsPsychHtmlKeyboardResponse` versus `jsPsychImageKeyboardResponse` — because these are two separate plugins, each one built to display a different kind of content. `jsPsychHtmlKeyboardResponse`'s `stimulus` expects an HTML string; `jsPsychImageKeyboardResponse`'s `stimulus` expects a path to an image file instead. Beyond that one difference, everything else you learned about trials — `choices`, the trial ending on a valid key press — carries over unchanged.
+The `type` is different ( `jsPsychHtmlKeyboardResponse` versus `jsPsychImageKeyboardResponse`) because these are two separate plugins, each one built to display a different kind of content. `jsPsychHtmlKeyboardResponse`'s `stimulus` expects an HTML string; `jsPsychImageKeyboardResponse`'s `stimulus` expects a path to an image file instead. Beyond that one difference, everything else you learned about trials (i.e., `choices`, the trial ending on a valid key press) carries over unchanged.
 
 ### 1.2 Attaching extra information with `data`
 
-A trial object can include a `data` field: a plain object (Session 1, Part 3.3) that gets saved alongside whatever the participant does. It doesn't affect what's shown on screen — it's a way of tagging the trial with information you'll want later.
+A trial object can include a `data` field: a plain object (Session 1, Part 3.3) that gets saved alongside whatever the participant does. It doesn't affect what's shown on screen.  Rather, it's a way of tagging the trial with information you'll want later.
 
 ```js
 const trial = {
@@ -136,18 +161,18 @@ const trial = {
 };
 ```
 
-Here we're recording that this particular image is a circle, and that `f` is the correct key for it — information we'll need in Part 3 to give feedback.
+Here we're recording that this particular image is a circle, and that `f` is the correct key for it, which is information we'll need in Part 3 to give feedback.
 
 ::: {.callout-tip}
 ## Try it yourself
-In `experiment.html`, add a `data` field to the example trial, recording its category and correct response. Then add two or three more image trials by hand (one per shape), each with its own `data` field. Run the experiment and confirm each trial displays correctly.
+In `experiment.html`, add a `data` field to the example trial, recording its category and correct response. Then add two or three more image trials by hand (one per shape), each with its own `data` field. [You can take images directly from the 'images' directory.] Run the experiment and confirm each trial displays correctly.
 :::
 
 ### 1.3 A fixation cross before each trial
 
-Run a few trials back to back and you'll notice a problem: one shape simply replaces another on screen, with no gap in between. It's not always obvious whether the display actually changed or whether your last key press was even registered — and participants have nowhere consistent to rest their eyes before the next shape appears.
+Run a few trials back to back and you'll notice a problem: one shape simply replaces another on screen, with no gap in between. It's not always obvious whether the display actually changed or whether your last key press was even registered.  Moreover, participants have nowhere consistent to rest their eyes before the next shape appears.
 
-The fix is one you've already seen: Session 1's Part 4 Challenge used a **fixation cross** — a `+` shown briefly before the real stimulus — to solve exactly this problem. We'll use that same trial before *every* stimulus trial from now on:
+The fix is one you've already seen: Session 1's Part 4 Challenge used a **fixation cross**, a `+` shown briefly before the real stimulus, to solve exactly this problem. We'll use that same trial before *every* stimulus trial from now on:
 
 ```js
 const fixation_trial = {
@@ -158,7 +183,7 @@ const fixation_trial = {
 };
 ```
 
-Nothing new here — `jsPsychHtmlKeyboardResponse`, `choices: "NO_KEYS"`, and `trial_duration` are all exactly as you used them in Session 1. The only change is *how often* you use it: once before every single stimulus trial, for the rest of this course.
+Nothing new here as `jsPsychHtmlKeyboardResponse`, `choices: "NO_KEYS"`, and `trial_duration` are all exactly as you used them in Session 1. The only change is *how often* you use it: once before every single stimulus trial, for the rest of this course.
 
 ::: {.callout-tip}
 ## Try it yourself
@@ -174,7 +199,7 @@ Build a small timeline containing:
 1. The instructions trial.
 2. Four stimulus trials — two circles and two squares — each with the correct `data` field (`category` and `correct_response`), **each preceded by `fixation_trial`**.
 
-Compare your result to `checkpoint_1_trial_types.html` when you're done.
+When you're done, compare your result to `checkpoint_1_trial_types.html` in the solutions posted the day after the practical.
 :::
 
 ---
@@ -183,45 +208,53 @@ Compare your result to `checkpoint_1_trial_types.html` when you're done.
 
 ### 2.1 Why randomize?
 
-Writing out every trial by hand, in a fixed order, doesn't scale — and in a real experiment we usually don't want every participant to see stimuli in the same order (order effects are a confound). jsPsych provides a helper function for this: `jsPsych.randomization.shuffle()`.
+Writing out every trial by hand, in a fixed order, doesn't scale, and in a real experiment we usually don't want every participant to see stimuli in the same order (order effects are a confound). jsPsych provides a helper function for this: `jsPsych.randomization.shuffle()`.
 
 ```js
+// An array of objects: one object per stimulus.
+// Note the comma after every object except the last one.
 let stimulus_list = [
   { image: "images/circle1.jpg", category: "circle", correct_response: "f" },
   { image: "images/square1.jpg", category: "square", correct_response: "j" }
   // ... more stimuli
 ];
 
+// Replace the list with a shuffled version of itself
 stimulus_list = jsPsych.randomization.shuffle(stimulus_list);
 ```
 
-This is the same kind of array you learned about in Session 1 (Part 3.2) — just holding objects instead of plain filenames. `shuffle()` takes the array and returns a new version with the same items in a random order.
+This is the same kind of array you learned about in Session 1 (Part 3.2), just holding objects instead of plain filenames. `shuffle()` takes the array and returns a new version with the same items in a random order.
 
 ::: {.callout-note}
 ## `let` vs. no `let`
-Notice `stimulus_list` only has `let` in front of it the *first* time, when it's created. The second line, `stimulus_list = jsPsych.randomization.shuffle(stimulus_list);`, reassigns the same variable to a new value — it doesn't need `let` again, because `stimulus_list` already exists. `let` means "create a new variable"; writing a variable name on its own (no `let`) means "update the variable that already exists." Using `let` twice for the same name in the same scope is actually an error in JavaScript. You'll see this same pattern again in Part 4, where brand-new variables get `let` and existing ones get reassigned without it.
+Notice `stimulus_list` only has `let` in front of it the *first* time, when it's created. The second line, `stimulus_list = jsPsych.randomization.shuffle(stimulus_list);`, reassigns the same variable to a new value. The second line doesn't need `let` again, because `stimulus_list` already exists. `let` means "create a new variable"; writing a variable name on its own (no `let`) means "update the variable that already exists." Using `let` twice for the same name in the same scope is actually an error in JavaScript. You'll see this same pattern again in Part 4, where brand-new variables get `let` and existing ones get reassigned without it.
 :::
 
 ### 2.2 From an array of stimuli to an array of trials
 
-Once we have a (shuffled) array describing our stimuli, we use a `for` loop — exactly like Session 1, Part 3.5 — to turn each item into a trial object:
+Once we have a (shuffled) array describing our stimuli, we use a `for` loop, exactly like Session 1, Part 3.5, to turn each item into a trial object:
 
 ```js
+// Start with an empty array that will hold all of our trials
 let stimulus_trials = [];
 
+// Repeat once for every stimulus in stimulus_list (i = 0, 1, 2, ...)
 for (let i = 0; i < stimulus_list.length; i++) {
+  // Pick out the current stimulus object from the list
   let this_stimulus = stimulus_list[i];
 
+  // Build a trial for this stimulus, reading its details from the object
   let trial = {
     type: jsPsychImageKeyboardResponse,
-    stimulus: this_stimulus.image,
-    choices: ["f", "j"],
+    stimulus: this_stimulus.image,   // the image file to show
+    choices: ["f", "j"],             // the keys that are allowed as responses
     data: {
-      category: this_stimulus.category,
-      correct_response: this_stimulus.correct_response
+      category: this_stimulus.category,                 // saved with the trial
+      correct_response: this_stimulus.correct_response  // saved with the trial
     }
   };
 
+  // Add the fixation cross, then this stimulus trial, to the end of the array
   stimulus_trials.push(fixation_trial);
   stimulus_trials.push(trial);
 }
@@ -232,15 +265,28 @@ Two new pieces of vocabulary here:
 - **`this_stimulus.image`** — dot notation (Session 1, Part 3.3) to read a property off the current object in the loop.
 - **`stimulus_trials.push(trial)`** — `.push(...)` adds a new item to the end of an array. We start with an empty array (`[]`) and grow it one trial at a time as the loop runs.
 
-Notice `fixation_trial` (from Part 1.3) is pushed once per loop as well, directly before its matching stimulus trial — the same trial object, reused every time, exactly like `feedback_trial` will be reused later in Part 3.
+Notice `fixation_trial` (from Part 1.3) is pushed once per loop as well, directly before its matching stimulus trial.  This is the same trial object, reused every time, exactly like `feedback_trial` will be reused later in Part 3.
 
 Finally, we need to combine `instructions_trial` (a single trial) with `stimulus_trials` (an array of many trials) into one final timeline array:
 
 ```js
+// instructions_trial is one trial; stimulus_trials is a whole array of trials
 const timeline = [instructions_trial, ...stimulus_trials];
 ```
 
-The three dots `...` in front of `stimulus_trials` are needed so that each trial ends up directly in the timeline, rather than `stimulus_trials` being nested inside it as a sub-array. You'll see this exact pattern, `[fixed_trial, ...trials_array]`, several more times today — it's worth recognizing, even if the mechanism behind it isn't essential to memorize right now.
+The three dots `...` in front of `stimulus_trials` are needed so that each trial ends up directly in the timeline, rather than `stimulus_trials` being nested inside it as a sub-array. Here is how the timeline looks in each case (shortened to two stimulus trials):
+
+```js
+// WITH the three dots: [instructions_trial, ...stimulus_trials]
+// Every trial sits directly in the timeline:
+[ instructions_trial, fixation_trial, trial_A, fixation_trial, trial_B ]
+
+// WITHOUT the three dots: [instructions_trial, stimulus_trials]
+// stimulus_trials ends up as a list inside the timeline list (a sub-array):
+[ instructions_trial, [ fixation_trial, trial_A, fixation_trial, trial_B ] ]
+```
+
+jsPsych expects a single flat list of trials, so the second version would not run correctly. You'll see this exact pattern, `[fixed_trial, ...trials_array]`, several more times today — it's worth recognizing, even if the mechanism behind it isn't essential to memorize right now.
 
 ::: {.callout-note collapse="true"}
 ## Curious what those three dots actually do? (click to expand)
@@ -262,17 +308,17 @@ Without `...`, `[instructions_trial, stimulus_trials]` would be an array contain
 
 ::: {.callout-tip}
 ## Try it yourself
-1. In `experiment.html`, replace your manually written trials from Part 1 with a `stimulus_list` array, `shuffle()`, and a `for` loop that builds `stimulus_trials` — pushing `fixation_trial` before each `trial`, as shown above.
-2. Run the experiment twice in a row. Confirm the order of shapes is different each time, and that a `+` appears before every shape.
+1. In `experiment.html`, replace your manually written trials from Part 1 with a `stimulus_list` array, `shuffle()`, and a `for` loop that builds `stimulus_trials` ,remembering to push `fixation_trial` before each `trial`, as shown above.
+2. Run the experiment twice, one run after the other (i.e., click 'Open with Live Server' or reload the page so you see two separate runs, each with its own set of trials). Confirm the order of shapes is different each time, and that a `+` appears before every shape.
 :::
 
 ### Exercise 2
 
 ::: {.callout-warning}
 ## Exercise 2
-Extend your `stimulus_list` to include all 8 images in the `images/` folder (4 circles, 4 squares), and confirm your loop correctly builds 8 trials — each preceded by a fixation cross — in a random order each time you run it.
+Extend your `stimulus_list` to include all 8 images in the `images/` folder (4 circles, 4 squares), and confirm your loop correctly builds 8 trials, where each is preceded by a fixation cross, in a random order each time you run it.
 
-Compare your result to `checkpoint_2_randomization.html` when you're done.
+When you're done, compare your result to `checkpoint_2_randomization.html` in the solutions posted the day after the practical.
 :::
 
 ---
@@ -283,7 +329,7 @@ This part introduces the trickiest new idea of the day: **a trial parameter can 
 
 ### 3.1 Scoring a response: `on_finish`
 
-So far, none of our trials know whether the participant's response was *correct*. We can find out by comparing the key they pressed (`data.response`) to the correct key we stored earlier (`data.correct_response`) — but that comparison can only happen *after* the trial ends, once we know what was pressed.
+So far, none of our trials know whether the participant's response was *correct*. We can find out by comparing the key they pressed (`data.response`) to the correct key we stored earlier (`data.correct_response`), but that comparison can only happen *after* the trial ends, once we know what was pressed.
 
 jsPsych gives every trial an optional `on_finish` parameter: a function that runs immediately after that trial ends, and is handed that trial's own data to edit.
 
@@ -302,11 +348,11 @@ const trial = {
 };
 ```
 
-`data.response === data.correct_response` is an **if-statement-style comparison** (Session 1, Part 3.4) — it evaluates to `true` or `false`, and we store that directly as a new property, `data.correct`.
+`data.response === data.correct_response` is an **if-statement-style comparison** (Session 1, Part 3.4) which evaluates to `true` or `false`, and we store that directly as a new property, `data.correct`.
 
 ### 3.2 A trial that reads the previous trial's data
 
-Now we want a feedback trial whose text depends on whether the previous trial was correct. In every trial you've written so far, `stimulus` has been a fixed value — a string of HTML text (Session 1) or an image path (Part 1 today). Here, we need `stimulus` to change depending on what just happened, so instead of a fixed value we give it a **function**: jsPsych will call this function right before showing the trial, and use whatever string it returns.
+Now we want a feedback trial whose text depends on whether the previous trial was correct. In every trial you've written so far, `stimulus` has been a fixed value, such as a string of HTML text (Session 1) or an image path (Part 1 today). Here, we need `stimulus` to change depending on what just happened, so instead of a fixed value we give it a **function**: jsPsych will call this function right before showing the trial, and use whatever string it returns.
 
 ```js
 const feedback_trial = {
@@ -331,31 +377,32 @@ Breaking down the new line:
 - **`.last(1)`** — narrows this down to just the most recent trial.
 - **`.values()[0]`** — unwraps that into a plain object we can read with dot notation, same as any other object.
 
-The `if` statement here is exactly the same pattern from Session 1, Part 3.4 — the only difference is that the condition (`last_trial_data.correct`) comes from data collected while the experiment is running, rather than a variable we wrote ourselves.
+The `if` statement here is exactly the same pattern from Session 1, Part 3.4 with the only difference being that the condition (`last_trial_data.correct`) comes from data collected while the experiment is running, rather than a variable we wrote ourselves.
 
 ::: {.callout-important}
 ## Order matters: define `feedback_trial` before your loop
-JavaScript runs your code from top to bottom, in order — the same reason you must define a variable before using it (Session 1, Part 3.1). `feedback_trial` needs to exist *before* the loop that pushes it into `stimulus_trials`; if you define it further down the file, after the loop, you'll get an error saying `feedback_trial` doesn't exist yet. Keep `feedback_trial` above your `for` loop, the same way it's written above.
+JavaScript runs your code from top to bottom, in order, which is why you must define a variable before using it (Session 1, Part 3.1). `feedback_trial` needs to exist *before* the loop that pushes it into `stimulus_trials`; if you define it further down the file, after the loop, you'll get an error saying `feedback_trial` doesn't exist yet. Keep `feedback_trial` above your `for` loop, the same way it's written above.
 :::
 
 ::: {.callout-note}
 ## Common pitfall
-Notice `feedback_trial` is defined *once*, outside any loop, and then reused after every stimulus trial. It doesn't need to know in advance which stimulus it's giving feedback about — it works that out for itself, each time it runs, using `jsPsych.data.get()`. You do not need (and should not create) a separate feedback trial for every stimulus.
+Notice `feedback_trial` is defined *once*, outside any loop, and then reused after every stimulus trial. It doesn't need to know in advance which stimulus it's giving feedback about as it works that out for itself, each time it runs, using `jsPsych.data.get()`. You do not need (and should not create) a separate feedback trial for every stimulus.
 :::
 
 ### Exercise 3
 
 ::: {.callout-warning}
 ## Exercise 3
-Apply feedback directly to the 8-stimulus experiment you already built in **Exercise 2** — don't start a new file or a smaller test version, just extend what you have:
+Apply feedback to the 8-stimulus experiment you already built in **Exercise 2**. You don't need to start from scratch: save a copy of your Exercise 2 file under a new name (for example `experiment_exercise3.html`, in the same folder so it can still find the `images/` and `jspsych/` folders) and build on that copy. That way your Exercise 2 version stays intact.
 
 1. Add `on_finish` to each stimulus trial in your loop, so that `data.correct` gets recorded.
 2. Define one `feedback_trial`, as shown above, *before* your loop.
-3. Inside your loop, you should already be pushing `fixation_trial` then `trial` (from Exercise 2) — add a third line after those: `stimulus_trials.push(feedback_trial);`, so every trial now runs as fixation → stimulus → feedback.
+3. Inside your loop, you should already be pushing `fixation_trial` then `trial` (from Exercise 2), now add a third line after those: `stimulus_trials.push(feedback_trial);`, so every trial now runs as fixation → stimulus → feedback.
 4. Run your experiment and confirm you see "Correct!" or "Incorrect." after every one of the 8 responses.
 5. Once that's working, customize `feedback_trial` further: alongside "Correct!" / "Incorrect.", also display the participant's reaction time in milliseconds (hint: `last_trial_data` also has an `.rt` property).
+    - *Hint on putting a number into text:* you can join text and numbers with `+`, and JavaScript turns the number into text for you, so `"Reaction time: " + 523 + " ms"` gives `Reaction time: 523 ms`. The `rt` value has many decimals, so round it first with `Math.round(...)`, e.g. `let rt = Math.round(last_trial_data.rt);`. Then add it to the string you `return`, e.g. `return "<p style='color:green;'>Correct!</p>" + "<p>Reaction time: " + rt + " ms</p>";`
 
-Compare your result to `checkpoint_3_feedback.html` when you're done (note the checkpoint doesn't include the reaction-time addition from step 5 — that part is yours to add).
+When you're done, compare your result to `checkpoint_3_feedback.html` in the solutions posted the day after the practical.
 :::
 
 ---
@@ -364,22 +411,25 @@ Compare your result to `checkpoint_3_feedback.html` when you're done (note the c
 
 ### 4.1 Two separate arrays: practice and main
 
-A typical experiment has a short **practice block** (with feedback, so participants learn the task) followed by a longer **main block** (without feedback, since we don't want to influence real responses). We build these the same way as before — an array of stimuli, shuffled, looped over — just twice, with one small difference each time.
+A typical experiment has a short **practice block** (with feedback, so participants learn the task) followed by a longer **main block** (without feedback, since we don't want to influence real responses). We build these the same way as before (with an array of stimuli, shuffled, looped over) just twice, with one small difference each time.
 
 ```js
 let practice_stimuli = jsPsych.randomization.shuffle(stimulus_list).slice(0, 4);
 ```
 
-`.slice(0, 4)` takes just the first 4 items of the (already shuffled) array — a quick way to get a small random subset for practice.
+`.slice(0, 4)` takes just the first 4 items of the (already shuffled) array, which is a quick way to get a small random subset for practice.
 
 The practice loop looks just like Part 3's loop, and still pushes `fixation_trial` then `feedback_trial` around every stimulus trial. The main block's loop is almost identical, except it does **not** push a feedback trial (though it still gets a fixation cross):
 
 ```js
+// An empty array for the main-block trials
 let main_trials = [];
 
+// One pass through the stimulus list
 for (let i = 0; i < stimulus_list.length; i++) {
   let this_stimulus = stimulus_list[i];
 
+  // Same trial as before, now tagged with phase: "main" and scored in on_finish
   let trial = {
     type: jsPsychImageKeyboardResponse,
     stimulus: this_stimulus.image,
@@ -399,19 +449,22 @@ for (let i = 0; i < stimulus_list.length; i++) {
 }
 ```
 
-Note the added `phase: "main"` (and `phase: "practice"` in the practice version) in `data` — a small addition that will make it easy, in Session 3, to filter practice trials out when computing accuracy.
+Note the added `phase: "main"` (and `phase: "practice"` in the practice version) in `data`, which is a small addition that will make it easy, in Session 3, to filter practice trials out when computing accuracy.
 
 ### 4.2 Repeating the main block with a loop
 
-To repeat the whole main block several times (each time reshuffled), we wrap the loop above in another loop — a **loop inside a loop**:
+To repeat the whole main block several times (each time reshuffled), we wrap the loop above in another loop, i.e., a **loop inside a loop**:
 
 ```js
-let n_repetitions = 3;
+let n_repetitions = 3;   // how many times to repeat the whole block
 let main_trials = [];
 
+// Outer loop: once per repetition of the block
 for (let rep = 0; rep < n_repetitions; rep++) {
+  // Reshuffle the stimuli at the start of each repetition
   let this_repetition_stimuli = jsPsych.randomization.shuffle(stimulus_list);
 
+  // Inner loop: once per stimulus within this repetition
   for (let i = 0; i < this_repetition_stimuli.length; i++) {
     let this_stimulus = this_repetition_stimuli[i];
     // ... build trial, same as before ...
@@ -421,7 +474,7 @@ for (let rep = 0; rep < n_repetitions; rep++) {
 }
 ```
 
-Read the outer loop first: "repeat this whole block `n_repetitions` times." Each time around the outer loop, we reshuffle the stimulus list and run the *entire inner loop* again, adding a fresh set of trials to `main_trials`. This is a plain JavaScript loop doing the repeating — nothing jsPsych-specific yet. (Session 3 will introduce jsPsych's own built-in tool for this, `timeline_variables`, once you've seen why it's useful.)
+Read the outer loop first: "repeat this whole block `n_repetitions` times." Each time around the outer loop, we reshuffle the stimulus list and run the *entire inner loop* again, adding a fresh set of trials to `main_trials`. This is a plain JavaScript loop doing the repeating and is nothing jsPsych-specific yet. (Session 3 will introduce jsPsych's own built-in tool for this, `timeline_variables`, once you've seen why it's useful.)
 
 ### 4.3 Assembling the full timeline
 
@@ -468,16 +521,16 @@ Assemble the complete experiment, in `experiment.html`:
 3. Define a `transition_trial` and an `end_trial`, as shown above.
 4. Assemble the full timeline: instructions → practice block → transition message → main block → closing message, and run it end to end.
 
-Compare your result to `checkpoint_4_blocks.html` when you're done — this is the full Session 2 experiment.
+When you're done, compare your result to `checkpoint_4_blocks.html` in the solutions posted the day after the practical. This is the full Session 2 experiment.
 :::
 
-### Challenge (optional)
+### Challenge
 
 ::: {.callout-important}
 ## Challenge
 Make `end_trial` show the participant how many main-block trials they actually completed, using the `phase` tag you added to each trial's `data` earlier.
 
-You'll need one new tool: `jsPsych.data.get().filter({phase: "main"}).count()` — this takes all the collected data, `.filter(...)` keeps only the trials whose `data.phase` matches `"main"`, and `.count()` returns how many trials are left. Store this in a variable, then use it inside a `stimulus: function() {...}` — the same pattern as `feedback_trial` — to build a personalized closing message, e.g. *"You completed 24 main trials. Thank you!"*
+You'll need one new tool: `jsPsych.data.get().filter({phase: "main"}).count()` which takes all the collected data, `.filter(...)` keeps only the trials whose `data.phase` matches `"main"`, and `.count()` returns how many trials are left. Store this in a variable, then use it inside a `stimulus: function() {...}` — the same pattern as `feedback_trial` — to build a personalized closing message, e.g. *"You completed 24 main trials. Thank you!"*
 
 For more on `.filter()`, `.count()`, and other data tools, see the [jsPsych data overview](https://www.jspsych.org/latest/overview/data/) and the [full `DataCollection` reference](https://www.jspsych.org/latest/reference/jspsych-data/).
 
@@ -517,12 +570,7 @@ const video_trial = {
 Notice how little is actually new: `type`, `choices`, `data`, `on_finish` are all exactly as you've used them all session. The genuinely new pieces are:
 
 - **`trial_ends_after_audio` / `trial_ends_after_video`** — the trial waits for the media to finish playing, the same role `trial_duration` plays for a fixed time or `choices` plays for a key press.
-- **`video`'s `stimulus` is an array**, not a plain string like every other plugin so far — an easy typo to make, since it looks like it should be `"media/circle_clip.mp4"` on its own.
-
-::: {.callout-note}
-## Debugging corner
-Auto-preloading (Session 3 covers preloading properly) only works for audio/video files written as a fixed string or array, exactly like the image caveat you'll see with `timeline_variables` in Session 3 — if you dynamically build the stimulus path, you'll need to preload it by hand the same way. Also: video preloading is disabled entirely when running via a `file://` link instead of a real server (e.g. Live Server) — one more reason to always test with Live Server, not by double-clicking the HTML file.
-:::
+- **`video`'s `stimulus` is an array**, not a plain string like every other plugin so far which is an easy typo to make, since it looks like it should be `"media/circle_clip.mp4"` on its own.
 
 A working demo is provided in `audio_video_demo.html` — try it with Live Server (audio and video won't play reliably from a double-clicked file).
 
@@ -544,11 +592,11 @@ const trial = {
 };
 ```
 
-This looks almost identical to `html-keyboard-response` — `type`, `stimulus`, `choices` — but `choices` here is a list of **button labels**, not key characters, and buttons appear on screen for the participant to click.
+This looks almost identical to `html-keyboard-response` — `type`, `stimulus`, `choices`, but `choices` here is a list of **button labels**, not key characters, and buttons appear on screen for the participant to click.
 
 ::: {.callout-important}
 ## The one real difference: how the response is recorded
-With every keyboard plugin so far, `data.response` has been the character key that was pressed (e.g. `"f"`). With `html-button-response`, **`data.response` is the *index* of the button clicked** (`0` for the first button, `1` for the second, and so on) — not the button's text. If you write `on_finish` scoring exactly like your keyboard trials (comparing `data.response` to a key character), it will silently never match. Compare it to a **number** instead:
+With every keyboard plugin so far, `data.response` has been the character key that was pressed (e.g. `"f"`). With `html-button-response`, **`data.response` is the *index* of the button clicked** (`0` for the first button, `1` for the second, and so on), which is not the button's text. If you write `on_finish` scoring exactly like your keyboard trials (comparing `data.response` to a key character), it will silently never match. Compare it to a **number** instead:
 
 ```js
 data: { correct_response: 0 },  // 0 = index of the correct button in "choices"
@@ -577,7 +625,7 @@ In Session 3, we'll turn this into something that could actually collect real da
 
 ::: {.callout-note}
 ## Before next time
-Make sure `experiment.html` (or your version of `checkpoint_4_blocks.html`) is saved and ready to bring to Session 3 — you'll be extending this same file.
+Make sure your finished `experiment.html` from Exercise 4 is saved, as you'll be extending this same experiment in Session 3. If you didn't finish, don't worry: the Session 3 template already starts from the complete Session 2 experiment.
 :::
 
 :::::::

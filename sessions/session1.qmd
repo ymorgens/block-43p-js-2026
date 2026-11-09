@@ -148,6 +148,25 @@ Near the top or bottom of `index.html` you will see lines such as:
 The `<link>` tag pulls in the CSS file (appearance), and the `<script>` tag pulls in the JavaScript file (behaviour).
 This is the essential pattern behind almost every webpage: **one HTML file, linked to CSS and JavaScript files.**
 
+::: {.callout-note}
+## Code can also live inside the HTML file
+Instead of linking to a separate file, you can write CSS between `<style>` and `</style>` tags, and JavaScript between `<script>` and `</script>` tags, directly inside the HTML file:
+
+``` html
+<style>
+  h1 { color: blue; }
+</style>
+
+<script>
+  console.log("Hello from inside the HTML file");
+</script>
+```
+
+Both ways do exactly the same thing; separate files simply keep things tidy.
+Our template uses separate files for `index.html` (`style.css` and `experiment.js`), but `example_3.html` in Part 4 keeps its JavaScript inside a `<script>` block in the HTML file itself.
+You can tell the two apart by the `src` attribute: `<script src="experiment.js"></script>` *loads a file*, whereas a `<script>` tag without `src` *contains the code itself*.
+:::
+
 ::: callout-tip
 ## Try it yourself
 
@@ -377,6 +396,42 @@ let participant = {
 console.log(participant.condition); // 'A'
 ```
 
+### A note on commas
+
+In arrays and objects, items are separated by commas. A comma goes **between** items, and you don't need one after the last item:
+
+``` js
+let stimuli = [
+  'face1.jpg',    // comma needed here
+  'face2.jpg',    // comma needed here
+  'face3.jpg'     // no comma needed after the last item
+];
+
+let participant = {
+  id: 1,            // comma needed here
+  condition: 'A'    // no comma needed after the last property
+};
+```
+
+(JavaScript does allow a comma after the last item, so it won't cause an error, but in this course we leave it off.)
+The mistake that *does* cause an error is the opposite one: forgetting a comma **between** two items.
+The console then shows an error such as `Unexpected token`, `Unexpected string` or `Unexpected identifier`, usually pointing at the line just after the missing comma.
+
+The same rule applies to an array of objects, which you will use a lot from Session 2 onwards:
+
+``` js
+let stimulus_list = [
+  { image: "images/circle1.jpg", category: "circle", correct_response: "f" },   // comma needed
+  { image: "images/square1.jpg", category: "square", correct_response: "j" }    // no comma after the last
+];
+```
+
+::: callout-tip
+## Try it yourself
+
+In `experiment.js`, delete the comma between two items of the `stimuli` array, save, and look at the console. Read the error message, then put the comma back.
+:::
+
 ### 3.4 If statements
 
 An **if statement** runs some code only when a condition is true.
@@ -449,7 +504,7 @@ jsPsych takes care of presenting each trial in order, timing everything precisel
 
 ### 4.2 Anatomy of a minimal jsPsych experiment
 
-Open `example_3.html` and look for the following four components:
+Open `example_3.html` and look for the following four components. They sit inside the `<script>` ... `</script>` block of the HTML file (see "Code can also live inside the HTML file" in Part 1):
 
 ``` js
 // 1. Initialise jsPsych

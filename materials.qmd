@@ -5,7 +5,7 @@ format:
     toc: true
 ---
 
-Each session has a self-contained starter template: jsPsych library files, images/media, a starting `experiment.html`, and reference "checkpoint" files for that session. Download the one for the session you're on.
+Each session has a self-contained starter template: jsPsych library files, images/media and a starting `experiment.html`. Download the one for the session you're on.
 
 ## Session templates
 
@@ -62,7 +62,7 @@ Worked solutions are posted the day after each session, so you have a genuine ch
 :::
 
 ::: {.content-visible when-meta="solutions2"}
-- [Session 2 solutions](downloads/jspsych-course-session2-solutions.zip) — optional challenge
+- [Session 2 solutions](downloads/jspsych-course-session2-solutions.zip) — reference solutions for Exercises 1–4 (the `checkpoint` files) and the optional challenge
 :::
 ::: {.content-hidden when-meta="solutions2"}
 - Session 2 solutions — *posted the day after Session 2*
