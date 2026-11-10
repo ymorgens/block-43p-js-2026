@@ -25,9 +25,9 @@ execute:
 
 ## Welcome back
 
-Last week you learned the basic building blocks: HTML, CSS, JavaScript, and how a minimal jsPsych experiment is put together (`initJsPsych()`, a trial, a timeline, `jsPsych.run()`). Today, everything you build uses those exact same pieces, so nothing from Session 1 is being replaced, only extended.
+Last week you learned the basic building blocks: HTML, CSS, JavaScript, and how a minimal jsPsych experiment is put together (`initJsPsych()`, a trial, a timeline, `jsPsych.run()`). In Session 2, everything you build uses those exact same pieces, so nothing from Session 1 is being replaced, only extended.
 
-Today you will build **one experiment across the whole session**: a simple shape-categorization task, where participants see a shape and press **F** for circle or **J** for square. Each part of the session adds one new capability to this same experiment, so that by the end you have something that looks a lot like a real (if small) study which will include practice, feedback, randomization, and repeated blocks of trials.
+In Session 2, you will build **one experiment across the whole session**: a simple shape-categorization task, where participants see a shape and press **F** for circle or **J** for square. Each part of the session adds one new capability to this same experiment, so that by the end you have something that looks a lot like a real (if small) study which will include practice, feedback, randomization, and repeated blocks of trials.
 
 ::: {.callout-note}
 ## Learning objectives
@@ -44,9 +44,9 @@ By the end of this session you will be able to:
 
 ## Recap: what carries over from Session 1
 
-Before starting, make sure these ideas from Session 1 feel solid, since today builds directly on top of them:
+Before starting, make sure these ideas from Session 1 feel solid, since Session 2 builds directly on top of them:
 
-| From Session 1 | How it's used today |
+| From Session 1 | How it's used in Session 2 |
 |---|---|
 | **Arrays** (Part 3.2) | We'll store our stimuli as an array, then shuffle and loop over it |
 | **`for` loops** (Part 3.5) | We'll use a `for` loop to turn an array of stimuli into an array of trials |
@@ -79,12 +79,12 @@ const jsPsych = initJsPsych({
 
 ::: {.callout-tip}
 ## Try it yourself
-Open your `example_3.html` file from Session 1. Remind yourself where the trial, the timeline, and `jsPsych.run()` are. Today's `experiment.html` starter file uses exactly the same structure.
+Open your `example_3.html` file from Session 1. Remind yourself where the trial, the timeline, and `jsPsych.run()` are. Session 2's `experiment.html` starter file uses exactly the same structure.
 :::
 
 ### Getting set up
 
-Open the new template folder for today in VS Code (same process as Session 1: unzip, open folder, install Live Server if you haven't already). You should see:
+Open the new template folder for Session 2 in VS Code (same process as Session 1: unzip, open folder, install Live Server if you haven't already). You should see:
 
 ```
 session2-template/
@@ -100,13 +100,13 @@ The last three items are only needed for the two optional bonus sections at the 
 
 ::: {.callout-important}
 ## Solutions
-Try building each part yourself in `experiment.html`, and write down any questions to bring to the practical. Reference solutions for each exercise (the `checkpoint_*.html` files, plus the optional challenge) are posted on the [Templates & Materials](../materials.qmd) page the day after the practical, so you can compare your approach afterwards.
+Try building each part yourself in `experiment.html`, and write down any questions to bring to the practical. Reference solutions for each exercise (the `checkpoint_*.html` files, plus the challenge) are posted on the [Templates & Materials](../materials.qmd) page the day after the practical, so you can compare your approach afterwards.
 :::
 
 Open `experiment.html` now and take a look. It already contains:
 
 - One `jsPsychHtmlKeyboardResponse` instructions trial (same plugin as Session 1).
-- One `jsPsychImageKeyboardResponse` trial, a **new** plugin for today, which displays an image instead of HTML text, and otherwise works exactly like `jsPsychHtmlKeyboardResponse`.
+- One `jsPsychImageKeyboardResponse` trial, a **new** plugin for Session 2, which displays an image instead of HTML text, and otherwise works exactly like `jsPsychHtmlKeyboardResponse`.
 
 ::: {.callout-tip}
 ## Try it yourself
@@ -138,7 +138,7 @@ const trial = {
   stimulus: "<p>Hello, welcome to the experiment!</p>"
 };
 
-// Today — image-keyboard-response
+// Session 2 — image-keyboard-response
 const trial = {
   type: jsPsychImageKeyboardResponse,
   stimulus: "images/circle1.jpg",
@@ -286,7 +286,7 @@ The three dots `...` in front of `stimulus_trials` are needed so that each trial
 [ instructions_trial, [ fixation_trial, trial_A, fixation_trial, trial_B ] ]
 ```
 
-jsPsych expects a single flat list of trials, so the second version would not run correctly. You'll see this exact pattern, `[fixed_trial, ...trials_array]`, several more times today — it's worth recognizing, even if the mechanism behind it isn't essential to memorize right now.
+jsPsych expects a single flat list of trials, so the second version would not run correctly. You'll see this exact pattern, `[fixed_trial, ...trials_array]`, several more times in this session — it's worth recognizing, even if the mechanism behind it isn't essential to memorize right now.
 
 ::: {.callout-note collapse="true"}
 ## Curious what those three dots actually do? (click to expand)
@@ -352,7 +352,7 @@ const trial = {
 
 ### 3.2 A trial that reads the previous trial's data
 
-Now we want a feedback trial whose text depends on whether the previous trial was correct. In every trial you've written so far, `stimulus` has been a fixed value, such as a string of HTML text (Session 1) or an image path (Part 1 today). Here, we need `stimulus` to change depending on what just happened, so instead of a fixed value we give it a **function**: jsPsych will call this function right before showing the trial, and use whatever string it returns.
+Now we want a feedback trial whose text depends on whether the previous trial was correct. In every trial you've written so far, `stimulus` has been a fixed value, such as a string of HTML text (Session 1) or an image path (Part 1 of Session 2). Here, we need `stimulus` to change depending on what just happened, so instead of a fixed value we give it a **function**: jsPsych will call this function right before showing the trial, and use whatever string it returns.
 
 ```js
 const feedback_trial = {
@@ -612,7 +612,7 @@ A working demo is provided in `button_response_demo.html`.
 
 ## Summary
 
-Today you extended last week's jsPsych foundations into something that looks like a real task:
+Session 2 you extended last week's jsPsych foundations into something that looks like a real task:
 
 - **Multiple trial types** can live in the same timeline, including images.
 - **`data`** attaches information to a trial that gets saved but doesn't affect what's shown.
@@ -621,7 +621,7 @@ Today you extended last week's jsPsych foundations into something that looks lik
 - **Functions as parameters** (`stimulus: function() {...}`) let a trial adapt to what just happened, via `on_finish` and `jsPsych.data.get()`.
 - **Practice and main blocks**, and repeating a block with a loop, give an experiment real structure.
 
-In Session 3, we'll turn this into something that could actually collect real data: adding a participant-info screen, saving data to a file, computing accuracy and reaction time, and introducing jsPsych's own `timeline_variables` as a cleaner way to do the repetition you built by hand today.
+In Session 3, we'll turn this into something that could actually collect real data: adding a participant-info screen, saving data to a file, computing accuracy and reaction time, and introducing jsPsych's own `timeline_variables` as a cleaner way to do the repetition you built by hand in Session 2.
 
 ::: {.callout-note}
 ## Before next time

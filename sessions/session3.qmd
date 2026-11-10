@@ -25,9 +25,9 @@ execute:
 
 ## Welcome back
 
-Over the last two sessions you built a small shape-categorization task: participants see a circle or square and press **F** or **J**, with a practice block, feedback, and a repeated main block. Today, that same experiment becomes something you could actually run as a real pilot study — with a cleaner way of repeating trials, faster-loading images, a participant ID, saved data, and a debrief screen showing the participant their own performance.
+Over the last two sessions you built a small shape-categorization task: participants see a circle or square and press **F** or **J**, with a practice block, feedback, and a repeated main block. In Session 3, that same experiment becomes something you could actually run as a real pilot study, with a cleaner way of repeating trials, faster-loading images, a participant ID, saved data, and a debrief screen showing the participant their own performance.
 
-As with Session 2, everything you build today extends the **same experiment file** — nothing from Sessions 1–2 is being replaced.
+As with Session 2, everything you build today extends the **same experiment file**, so nothing from Sessions 1–2 is being replaced.
 
 ::: {.callout-note}
 ## Learning objectives
@@ -47,15 +47,15 @@ By the end of this session you will be able to:
 
 | From Sessions 1–2 | How it's used today |
 |---|---|
-| **`for` loops, loop-inside-a-loop** (Session 2, Part 4) | Today's Part 1 replaces this with jsPsych's own tool for the same job |
-| **Objects & arrays of stimuli** (Session 1–2) | `stimulus_list` is unchanged — still an array of `{image, category, correct_response}` objects |
-| **Functions as parameters** (Session 2, Part 3) | Reused again today for the debrief screen in Part 4 |
-| **`data` and `on_finish`** (Session 2, Parts 1 & 3) | Unchanged — still how we tag and score trials |
-| **The spread operator `...`** (Session 2, Part 2) | Contrasted today with a *new* case where you do **not** use it — see Part 1 |
+| **`for` loops, loop-inside-a-loop** (Session 2, Part 4) | Session 3's Part 1 replaces this with jsPsych's own tool for the same job |
+| **Objects & arrays of stimuli** (Session 1–2) | `stimulus_list` is unchanged.  It is still an array of `{image, category, correct_response}` objects |
+| **Functions as parameters** (Session 2, Part 3) | Reused again in Session 3 for the debrief screen in Part 4 |
+| **`data` and `on_finish`** (Session 2, Parts 1 & 3) | Unchanged, still how we tag and score trials |
+| **The spread operator `...`** (Session 2, Part 2) | Contrasted in Session 3 with a *new* case where you do **not** use it, see Part 1 |
 
 ### Getting set up
 
-Open today's template folder. `experiment.html` already contains your finished Session 2 experiment — this is today's starting point.
+Open Session 3's template folder. `experiment.html` already contains your finished Session 2 experiment and this is today's starting point.
 
 ```
 session3-template/
@@ -75,7 +75,7 @@ Same as Session 2: try building each part yourself first, and only open a checkp
 
 ### New plugins today
 
-Just like Part 4 of Session 1, every jsPsych plugin needs its own `<script>` tag in `<head>`, in addition to the core `jspsych.js` file. Two new plugins are introduced today — add these script tags to `experiment.html` *before* you need them (you'll get a `jsPsychPreload is not defined` / `jsPsychSurveyText is not defined` style error in the console if you forget):
+Just like Part 4 of Session 1, every jsPsych plugin needs its own `<script>` tag in `<head>`, in addition to the core `jspsych.js` file. Two new plugins are introduced today:  Please add these script tags to `experiment.html` *before* you need them (you'll get a `jsPsychPreload is not defined` / `jsPsychSurveyText is not defined` style error in the console if you forget):
 
 | Plugin | Used in | Script tag to add |
 |---|---|---|
@@ -90,7 +90,7 @@ Just like Part 4 of Session 1, every jsPsych plugin needs its own `<script>` tag
 
 ### 1.1 Why replace the loop?
 
-In Session 2, you built the main block with a loop inside a loop: an outer loop repeated the block `n_repetitions` times, and an inner loop turned each (reshuffled) stimulus into a trial. That approach works, but jsPsych has its own built-in tool for exactly this pattern, called **timeline variables** — worth learning because it's what most real jsPsych experiments use, and because it lets jsPsych handle the randomizing and repeating for you.
+In Session 2, you built the main block with a loop inside a loop: an outer loop repeated the block `n_repetitions` times, and an inner loop turned each (reshuffled) stimulus into a trial. That approach works, but jsPsych has its own built-in tool for exactly this pattern, called **timeline variables**, which is worth learning because it's what most real jsPsych experiments use, and because it lets jsPsych handle the randomizing and repeating for you.
 
 ### 1.2 From per-trial values to `jsPsych.timelineVariable()`
 

@@ -33,7 +33,7 @@ By the end of the four sessions, you will be able to design, program, and deploy
 
 This first session lays the foundation.
 You do **not** need any prior experience with web programming as we will build everything up from first principles.
-By the end of today, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
+By the end of Session 1, you will understand the basic building blocks of a webpage, be able to edit HTML and CSS, write simple JavaScript, and run your very first jsPsych experiment.
 
 ::: callout-note
 ## Learning objectives
@@ -174,7 +174,7 @@ Find these `<link>` and `<script>` lines in your `index.html` file.
 
 `index.html` doesn't link in jsPsych yet; we only need that in Part 4.
 But the same pattern is used to load it.
-Open `example_3.html` (you won't use it until later today) and see if you can spot the lines that link in the jsPsych library files.
+Open `example_3.html` (you won't use it until later in Session 1) and see if you can spot the lines that link in the jsPsych library files.
 :::
 
 ::: {.callout-note collapse="true"}
@@ -216,7 +216,7 @@ Each language has its own comment syntax:
 ```
 
 Comments are one of the most useful habits you can build as a programmer: they let you (or a collaborator) understand *why* a piece of code exists, without having to reverse-engineer it.
-We've added comments throughout the template files to explain what each part does, so you can use them as a guide as you work through today's exercises.
+We've added comments throughout the template files to explain what each part does, so you can use them as a guide as you work through Session 1's exercises.
 
 ::: callout-tip
 ## Try it yourself
@@ -593,9 +593,9 @@ What changes on screen?
 
 jsPsych's own documentation is thorough and example-driven — it's worth getting comfortable navigating it now, since you'll rely on it for the rest of the course:
 
-- [Hello world tutorial](https://www.jspsych.org/latest/tutorials/hello-world/) — covers the same minimal experiment structure as today, from scratch.
+- [Hello world tutorial](https://www.jspsych.org/latest/tutorials/hello-world/) — covers the same minimal experiment structure as Session 1, from scratch.
 - [List of all plugins](https://www.jspsych.org/latest/plugins/list-of-plugins/) — browse what other plugins exist (images, audio, surveys, button responses, and more) for ideas ahead of Session 2.
-- [`html-keyboard-response` plugin page](https://www.jspsych.org/latest/plugins/html-keyboard-response/) — the full list of parameters for the plugin you used today, including `choices`, `stimulus_duration`, and `trial_duration`.
+- [`html-keyboard-response` plugin page](https://www.jspsych.org/latest/plugins/html-keyboard-response/) — the full list of parameters for the plugin you used in Session 1, including `choices`, `stimulus_duration`, and `trial_duration`.
 
 ::: callout-tip
 ## Try it yourself
@@ -650,7 +650,7 @@ A worked version of this sequence will be posted on the [Templates & Materials](
 
 ## Summary
 
-Today you learned how HTML, CSS, JavaScript, and jsPsych fit together to create an interactive web-based experiment:
+In Session 1 you learned how HTML, CSS, JavaScript, and jsPsych fit together to create an interactive web-based experiment:
 
 - **HTML** gives a page its content and structure.
 - **CSS** gives it its appearance.
@@ -662,7 +662,7 @@ In the next session, we will build on these foundations to create a more complet
 ::: callout-note
 ## Before next time
 
-Make sure your template folder, with all your edits from today, is saved and ready to bring to the next session.
+Make sure your template folder, with all your edits from Session 1, is saved and ready to bring to the next session.
 :::
 
 :::::::

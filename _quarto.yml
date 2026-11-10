@@ -10,7 +10,7 @@ project:
 # After changing a value: commit, push and run the workflow.
 session1: true
 session2: true
-session3: false
+session3: true
 session4: false
 solutions1: false
 solutions2: false

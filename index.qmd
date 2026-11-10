@@ -10,9 +10,11 @@ format:
 
 This manual contains the instructions and course material for the 4 of the 8 sessions in **4.3 Programming Experiments**. These four-sessions will be a hands-on introduction to building online behavioural experiments with [jsPsych](https://www.jspsych.org), complementing the sessions on programming experiments with E-Prime.
 
-JsPsych is open-source software, which means you can follow this tutorial and complete the exercises on your own computer. You can also work on the lab computers.
+jsPsych is a free, open-source JavaScript library for creating and running behavioural experiments in a web browser. Developed by Joshua R. de Leeuw, it provides an accessible and flexible framework for building experiments without having to program everything from scratch ([de Leeuw, 2015](https://doi.org/10.3758/s13428-014-0458-y)).
 
-By the end of the course, you will have built and hosted a complete, real experiment of your own choosing, from a blank file to a public URL that collects real data.
+Because jsPsych is open-source, you can follow this tutorial and complete the exercises on your own computer. You can also work on the lab computers..
+
+By the end of these four sessions, you will have built and hosted a complete, real experiment of your own choosing, starting from a blank file and working towards a publicly accessible URL that collects real data.
 
 ## Schedule
 
@@ -55,3 +57,7 @@ You'll need [VS Code](https://code.visualstudio.com/) installed, with the **Live
 ## Getting the Materials
 
 Each session's starter files, images, and library files are available as downloadable templates, see [Templates & Materials](materials.qmd).
+
+## References
+
+de Leeuw, J. R. (2015). jsPsych: A JavaScript library for creating behavioral experiments in a Web browser. Behavior Research Methods, 47, 1–12. [https://doi.org/10.3758/s13428-014-0458-y](https://doi.org/10.3758/s13428-014-0458-y)
