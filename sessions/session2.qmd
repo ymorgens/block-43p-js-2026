@@ -100,7 +100,7 @@ The last three items are only needed for the two optional bonus sections at the 
 
 ::: {.callout-important}
 ## Solutions
-Try building each part yourself in `experiment.html`, and write down any questions to bring to the practical. Reference solutions for each exercise (the `checkpoint_*.html` files, plus the challenge) are posted on the [Templates & Materials](../materials.qmd) page the day after the practical, so you can compare your approach afterwards.
+Try building each part yourself in `experiment.html`, and write down any questions to bring to the practical. Reference solutions for each exercise (the `solution_part*.html` files, plus the challenge) are posted on the [Templates & Materials](../materials.qmd) page the day after the practical, so you can compare your approach afterwards.
 :::
 
 Open `experiment.html` now and take a look. It already contains:
@@ -199,7 +199,7 @@ Build a small timeline containing:
 1. The instructions trial.
 2. Four stimulus trials — two circles and two squares — each with the correct `data` field (`category` and `correct_response`), **each preceded by `fixation_trial`**.
 
-When you're done, compare your result to `checkpoint_1_trial_types.html` in the solutions posted the day after the practical.
+When you're done, compare your result to `solution_part1_trial_types.html` in the solutions posted the day after the practical.
 :::
 
 ---
@@ -318,7 +318,7 @@ Without `...`, `[instructions_trial, stimulus_trials]` would be an array contain
 ## Exercise 2
 Extend your `stimulus_list` to include all 8 images in the `images/` folder (4 circles, 4 squares), and confirm your loop correctly builds 8 trials, where each is preceded by a fixation cross, in a random order each time you run it.
 
-When you're done, compare your result to `checkpoint_2_randomization.html` in the solutions posted the day after the practical.
+When you're done, compare your result to `solution_part2_randomization.html` in the solutions posted the day after the practical.
 :::
 
 ---
@@ -402,7 +402,7 @@ Apply feedback to the 8-stimulus experiment you already built in **Exercise 2**.
 5. Once that's working, customize `feedback_trial` further: alongside "Correct!" / "Incorrect.", also display the participant's reaction time in milliseconds (hint: `last_trial_data` also has an `.rt` property).
     - *Hint on putting a number into text:* you can join text and numbers with `+`, and JavaScript turns the number into text for you, so `"Reaction time: " + 523 + " ms"` gives `Reaction time: 523 ms`. The `rt` value has many decimals, so round it first with `Math.round(...)`, e.g. `let rt = Math.round(last_trial_data.rt);`. Then add it to the string you `return`, e.g. `return "<p style='color:green;'>Correct!</p>" + "<p>Reaction time: " + rt + " ms</p>";`
 
-When you're done, compare your result to `checkpoint_3_feedback.html` in the solutions posted the day after the practical.
+When you're done, compare your result to `solution_part3_feedback.html` in the solutions posted the day after the practical.
 :::
 
 ---
@@ -521,7 +521,7 @@ Assemble the complete experiment, in `experiment.html`:
 3. Define a `transition_trial` and an `end_trial`, as shown above.
 4. Assemble the full timeline: instructions → practice block → transition message → main block → closing message, and run it end to end.
 
-When you're done, compare your result to `checkpoint_4_blocks.html` in the solutions posted the day after the practical. This is the full Session 2 experiment.
+When you're done, compare your result to `solution_part4_blocks.html` in the solutions posted the day after the practical. This is the full Session 2 experiment.
 :::
 
 ### Challenge
